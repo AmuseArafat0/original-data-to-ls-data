@@ -400,28 +400,13 @@
         value="https://zoom.us/webinar/register/" 
         placeholder="https://zoom.us/webinar/register/" />
       
-      <div style="margin-top:16px;">
-        <label>Zoom Webinar ID (the part after /register/)</label>
-        <input type="text" id="zoomSuffix" 
-          placeholder="e.g. WN_REV6WJ5hTNa85OQwB1EnNQ" />
-        <small style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px;display:block;">
-          Leave blank to auto-read from CSV's <code style="color:var(--accent)">zoomads</code> column
-        </small>
-      </div>
-
-      <div style="margin-top:16px;">
-          <label>Zoom Meeting ID (zoomid)</label>
-          <input type="text" id="zoomMeetingId" 
-            placeholder="e.g. 96579230896" />
-          <small style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px;display:block;">
-            Leave blank to auto-read from CSV
-          </small>
-      </div>
 
       <div style="margin-top:14px;background:var(--surface);border:1px solid rgba(109,255,179,0.2);border-radius:8px;padding:12px 16px;">
-        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);">✅ Country code auto-detected from <code>CountryCode</code> column</span><br/>
-        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);">Formula used: <code style="color:var(--text)">'+"&amp;CountryCode&amp;"-"&amp;Phone</code> → e.g. <code style="color:var(--accent)">'+91-9876543210</code></span>
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);">✅ Zoom Webinar ID, Meeting ID &amp; Country Code — sab CSV se auto-detect hoga</span><br/>
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);">Kuch bhi manually dalne ki zaroorat nahi</span>
       </div>
+      <input type="hidden" id="zoomSuffix" value="" />
+      <input type="hidden" id="zoomMeetingId" value="" />
 
       <span class="help-toggle" onclick="toggleHelp()">ℹ️ How does the conversion work?</span>
       <div class="help-box" id="helpBox">
@@ -537,15 +522,17 @@
       showPreview();
       document.getElementById('convertBtn').disabled = false;
 
-      // Auto-fill Zoom suffix from first row if not set
-      if (!document.getElementById('zoomSuffix').value && headers.includes('zoomads')) {
+      // Always auto-fill zoomads + zoomid from CSV first row
+      if (headers.includes('zoomads')) {
         const sample = parsedRows[0]['zoomads'] || '';
-        if (sample && !sample.startsWith('http')) {
+        if (sample.startsWith('http')) {
+          const parts = sample.split('/register/');
+          document.getElementById('zoomSuffix').value = parts.length > 1 ? parts[1] : sample;
+        } else if (sample) {
           document.getElementById('zoomSuffix').value = sample;
         }
       }
-      // Auto-fill zoomid
-      if (!document.getElementById('zoomMeetingId').value && headers.includes('zoomid')) {
+      if (headers.includes('zoomid')) {
         const sample = parsedRows[0]['zoomid'] || '';
         const cleaned = sample.replace(/\s/g, '');
         if (cleaned) document.getElementById('zoomMeetingId').value = cleaned;
