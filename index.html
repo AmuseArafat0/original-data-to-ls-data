@@ -1,677 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LS Data Converter</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <title>LS Data Formatter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Commit+Mono:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #0a0a0f;
-      --surface: #111118;
-      --border: #1e1e2e;
-      --accent: #6dffb3;
-      --accent2: #ff6d6d;
-      --text: #e8e8f0;
-      --muted: #6b6b80;
-      --card: #14141f;
-      --radius: 12px;
+      --bg: #fff8f0;
+      --coral: #ff5c3a;
+      --yellow: #ffd234;
+      --mint: #1fd899;
+      --blue: #3a7bff;
+      --dark: #1a1a2e;
+      --card: #ffffff;
+      --radius: 16px;
+      --shadow: 4px 4px 0px var(--dark);
+      --shadow-lg: 6px 6px 0px var(--dark);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       background: var(--bg);
-      color: var(--text);
-      font-family: 'Syne', sans-serif;
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(255,92,58,0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 70%, rgba(58,123,255,0.1) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(255,210,52,0.08) 0%, transparent 60%);
+      font-family: "Cabinet Grotesk", sans-serif;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       padding: 40px 20px 80px;
+      position: relative;
+      overflow-x: hidden;
     }
-
-    /* Background grid */
     body::before {
-      content: '';
+      content: "";
       position: fixed;
       inset: 0;
-      background-image:
-        linear-gradient(rgba(109,255,179,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(109,255,179,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
+      background-image: radial-gradient(circle, rgba(26,26,46,0.06) 1.5px, transparent 1.5px);
+      background-size: 28px 28px;
       pointer-events: none;
       z-index: 0;
     }
-
-    .container {
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      max-width: 800px;
-    }
-
-    header {
-      margin-bottom: 48px;
-      text-align: left;
-    }
-
-    .tag {
-      display: inline-block;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      letter-spacing: 2px;
-      color: var(--accent);
-      border: 1px solid rgba(109,255,179,0.3);
-      padding: 4px 10px;
-      border-radius: 4px;
-      margin-bottom: 16px;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      font-size: clamp(32px, 6vw, 52px);
-      font-weight: 800;
-      line-height: 1.1;
-      color: var(--text);
-    }
-
-    h1 span {
-      color: var(--accent);
-    }
-
-    header p {
-      margin-top: 12px;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-      font-family: 'Space Mono', monospace;
-    }
-
-    /* Card */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-      margin-bottom: 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent), transparent);
-    }
-
-    .card-title {
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 1.5px;
-      text-transform: uppercase;
-      color: var(--muted);
-      font-family: 'Space Mono', monospace;
-      margin-bottom: 18px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 8px;
-      font-family: 'Space Mono', monospace;
-      letter-spacing: 0.5px;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 16px;
-      color: var(--text);
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    input[type="text"]:focus {
-      border-color: var(--accent);
-    }
-
-    input[type="text"]::placeholder {
-      color: var(--muted);
-    }
-
-    /* Country code row */
-    .row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-
-    @media (max-width: 500px) {
-      .row { grid-template-columns: 1fr; }
-    }
-
-    /* Upload zone */
-    .upload-zone {
-      border: 2px dashed var(--border);
-      border-radius: var(--radius);
-      padding: 48px 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: border-color 0.2s, background 0.2s;
-      position: relative;
-    }
-
-    .upload-zone:hover, .upload-zone.drag-over {
-      border-color: var(--accent);
-      background: rgba(109,255,179,0.03);
-    }
-
-    .upload-zone input[type="file"] {
-      position: absolute;
-      inset: 0;
-      opacity: 0;
-      cursor: pointer;
-      width: 100%;
-      height: 100%;
-    }
-
-    .upload-icon {
-      font-size: 36px;
-      margin-bottom: 12px;
-      display: block;
-    }
-
-    .upload-zone p {
-      color: var(--muted);
-      font-family: 'Space Mono', monospace;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .upload-zone .file-name {
-      color: var(--accent);
-      font-weight: 600;
-      margin-top: 8px;
-      font-size: 13px;
-      font-family: 'Space Mono', monospace;
-    }
-
-    /* Preview table */
-    .table-wrap {
-      overflow-x: auto;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      margin-top: 4px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-    }
-
-    th {
-      background: var(--surface);
-      color: var(--accent);
-      padding: 10px 14px;
-      text-align: left;
-      white-space: nowrap;
-      font-size: 11px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
-
-    td {
-      padding: 9px 14px;
-      border-top: 1px solid var(--border);
-      color: var(--text);
-      white-space: nowrap;
-      max-width: 220px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    tr:hover td { background: rgba(109,255,179,0.03); }
-
-    /* Stats bar */
-    .stats {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .stat {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px 18px;
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-    }
-
-    .stat strong {
-      color: var(--accent);
-      font-size: 18px;
-      display: block;
-    }
-
-    /* Alerts */
-    .alert {
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-family: 'Space Mono', monospace;
-      font-size: 12px;
-      margin-top: 12px;
-      display: none;
-    }
-
-    .alert.error {
-      background: rgba(255,109,109,0.1);
-      border: 1px solid rgba(255,109,109,0.3);
-      color: var(--accent2);
-      display: block;
-    }
-
-    .alert.success {
-      background: rgba(109,255,179,0.08);
-      border: 1px solid rgba(109,255,179,0.3);
-      color: var(--accent);
-      display: block;
-    }
-
-    /* Button */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      background: var(--accent);
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      padding: 14px 28px;
-      font-family: 'Syne', sans-serif;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: opacity 0.2s, transform 0.1s;
-      width: 100%;
-      justify-content: center;
-      letter-spacing: 0.5px;
-    }
-
-    .btn:hover { opacity: 0.88; }
-    .btn:active { transform: scale(0.98); }
-    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    /* Progress */
-    .progress-bar {
-      height: 4px;
-      background: var(--border);
-      border-radius: 2px;
-      margin-top: 16px;
-      overflow: hidden;
-      display: none;
-    }
-
-    .progress-bar.show { display: block; }
-
-    .progress-fill {
-      height: 100%;
-      background: var(--accent);
-      border-radius: 2px;
-      transition: width 0.3s;
-      width: 0%;
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 48px;
-      text-align: center;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 1px;
-    }
-
-    /* Toggle help */
-    .help-toggle {
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      cursor: pointer;
-      text-decoration: underline;
-      margin-top: 8px;
-      display: inline-block;
-    }
-
-    .help-box {
-      background: var(--surface);
-      border-left: 2px solid var(--accent);
-      padding: 12px 16px;
-      border-radius: 0 8px 8px 0;
-      margin-top: 10px;
-      font-family: 'Space Mono', monospace;
-      font-size: 11px;
-      color: var(--muted);
-      line-height: 1.8;
-      display: none;
-    }
-
+    .container { position: relative; z-index: 1; width: 100%; max-width: 760px; margin: 0 auto; }
+    .blob { position: fixed; border-radius: 50%; filter: blur(60px); opacity: 0.25; pointer-events: none; z-index: 0; animation: float 8s ease-in-out infinite; }
+    .blob-1 { width: 300px; height: 300px; background: var(--coral); top: -80px; right: -80px; animation-delay: 0s; }
+    .blob-2 { width: 200px; height: 200px; background: var(--blue); bottom: 100px; left: -60px; animation-delay: 3s; }
+    .blob-3 { width: 150px; height: 150px; background: var(--mint); top: 50%; right: 5%; animation-delay: 5s; }
+    @keyframes float { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-20px) scale(1.05);} }
+    header { margin-bottom: 40px; animation: slideUp 0.6s ease both; }
+    @keyframes slideUp { from{opacity:0;transform:translateY(24px);} to{opacity:1;transform:translateY(0);} }
+    .badge { display: inline-flex; align-items: center; gap: 6px; background: var(--yellow); color: var(--dark); border: 2px solid var(--dark); border-radius: 100px; padding: 5px 14px; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; box-shadow: 2px 2px 0 var(--dark); margin-bottom: 20px; }
+    h1 { font-size: clamp(42px, 8vw, 72px); font-weight: 900; line-height: 1; color: var(--dark); letter-spacing: -2px; }
+    h1 .accent { color: var(--coral); position: relative; display: inline-block; }
+    h1 .accent::after { content: ""; position: absolute; bottom: 4px; left: 0; right: 0; height: 6px; background: var(--yellow); z-index: -1; border-radius: 2px; }
+    .subtitle { margin-top: 14px; font-size: 16px; color: #555; font-weight: 500; max-width: 480px; line-height: 1.5; }
+    .card { background: var(--card); border: 2.5px solid var(--dark); border-radius: var(--radius); padding: 28px; margin-bottom: 18px; box-shadow: var(--shadow-lg); position: relative; animation: slideUp 0.6s ease both; }
+    .card:nth-child(2){animation-delay:0.1s;} .card:nth-child(3){animation-delay:0.2s;} .card:nth-child(4){animation-delay:0.3s;} .card:nth-child(5){animation-delay:0.4s;}
+    .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .card-icon { width: 40px; height: 40px; border-radius: 10px; border: 2px solid var(--dark); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .card-title { font-size: 17px; font-weight: 800; color: var(--dark); letter-spacing: -0.3px; }
+    .card-subtitle { font-size: 12px; color: #888; font-weight: 500; margin-top: 1px; }
+    .card-1 .card-icon{background:#fff5cc;} .card-2 .card-icon{background:#ffe8e3;} .card-3 .card-icon{background:#e3f5ff;} .card-4 .card-icon{background:#e8f9f1;}
+    label { display: block; font-size: 13px; font-weight: 700; color: var(--dark); margin-bottom: 7px; }
+    input[type="text"] { width: 100%; background: #fafafa; border: 2px solid var(--dark); border-radius: 10px; padding: 11px 14px; color: var(--dark); font-family: "Commit Mono", monospace; font-size: 13px; outline: none; transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s; box-shadow: 2px 2px 0 var(--dark); }
+    input[type="text"]:focus { border-color: var(--blue); box-shadow: 3px 3px 0 var(--blue); transform: translate(-1px,-1px); }
+    .auto-banner { display: flex; align-items: flex-start; gap: 10px; background: #f0fff8; border: 2px solid var(--mint); border-radius: 12px; padding: 14px 16px; margin-top: 16px; }
+    .auto-banner .icon { font-size: 20px; flex-shrink: 0; }
+    .auto-banner strong { display: block; font-size: 13px; font-weight: 800; color: var(--dark); }
+    .auto-banner p { font-size: 12px; color: #555; margin-top: 4px; line-height: 1.7; font-family: "Commit Mono", monospace; }
+    .upload-zone { border: 2.5px dashed #ccc; border-radius: 14px; padding: 44px 24px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; background: #fafafa; }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--blue); background: #f0f5ff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(58,123,255,0.12); }
+    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-emoji { font-size: 44px; display: block; margin-bottom: 12px; animation: bounce 2s ease-in-out infinite; }
+    @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
+    .upload-zone h3 { font-size: 16px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
+    .upload-zone p { font-size: 13px; color: #888; font-family: "Commit Mono", monospace; }
+    .file-name { margin-top: 12px; display: inline-flex; align-items: center; gap: 6px; background: var(--dark); color: #fff; padding: 5px 14px; border-radius: 100px; font-size: 13px; font-weight: 700; }
+    .alert { border-radius: 10px; padding: 12px 16px; font-size: 13px; font-weight: 600; margin-top: 14px; display: none; border: 2px solid transparent; }
+    .alert.error { background: #fff0ee; border-color: var(--coral); color: var(--coral); display: block; }
+    .alert.success { background: #f0fff8; border-color: var(--mint); color: #0a8a52; display: block; }
+    .stats { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
+    .stat { flex: 1; min-width: 100px; background: var(--bg); border: 2px solid var(--dark); border-radius: 12px; padding: 14px 16px; box-shadow: 3px 3px 0 var(--dark); text-align: center; }
+    .stat strong { display: block; font-size: 26px; font-weight: 900; color: var(--dark); line-height: 1; }
+    .stat span { font-size: 11px; font-weight: 700; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; display: block; }
+    .stat:nth-child(1) strong{color:var(--coral);} .stat:nth-child(2) strong{color:var(--blue);} .stat:nth-child(3) strong{color:var(--mint);}
+    .table-wrap { overflow-x: auto; border: 2px solid var(--dark); border-radius: 12px; margin-top: 16px; box-shadow: 3px 3px 0 var(--dark); }
+    table { width: 100%; border-collapse: collapse; font-family: "Commit Mono", monospace; font-size: 12px; }
+    th { background: var(--dark); color: var(--yellow); padding: 10px 14px; text-align: left; white-space: nowrap; font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+    td { padding: 10px 14px; border-top: 1.5px solid #f0f0f0; color: var(--dark); white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis; font-weight: 500; }
+    tr:hover td { background: #fffbf0; }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--coral); color: #fff; border: 2.5px solid var(--dark); border-radius: 12px; padding: 16px 28px; font-family: "Cabinet Grotesk", sans-serif; font-size: 16px; font-weight: 800; cursor: pointer; box-shadow: var(--shadow-lg); transition: transform 0.1s, box-shadow 0.1s; width: 100%; }
+    .btn:hover:not(:disabled) { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 var(--dark); }
+    .btn:active:not(:disabled) { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--dark); }
+    .btn:disabled { background: #ddd; color: #999; cursor: not-allowed; box-shadow: 2px 2px 0 #ccc; border-color: #ccc; }
+    .progress-wrap { margin-top: 16px; display: none; }
+    .progress-wrap.show { display: block; }
+    .progress-label { font-size: 12px; font-weight: 700; color: #888; margin-bottom: 6px; font-family: "Commit Mono", monospace; }
+    .progress-bar { height: 10px; background: #f0f0f0; border: 2px solid var(--dark); border-radius: 100px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--coral), var(--yellow)); border-radius: 100px; transition: width 0.3s; width: 0%; }
+    .help-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--blue); cursor: pointer; margin-top: 12px; text-decoration: underline; text-underline-offset: 3px; }
+    .help-box { background: #f5f8ff; border: 2px solid var(--blue); border-radius: 10px; padding: 14px 16px; margin-top: 10px; font-family: "Commit Mono", monospace; font-size: 12px; color: #444; line-height: 1.8; display: none; }
     .help-box.open { display: block; }
-
-    .step-num {
-      display: inline-block;
-      background: rgba(109,255,179,0.15);
-      color: var(--accent);
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 22px;
-      font-size: 11px;
-      margin-right: 8px;
-    }
+    footer { text-align: center; margin-top: 48px; font-size: 12px; font-weight: 700; color: #bbb; letter-spacing: 1px; text-transform: uppercase; font-family: "Commit Mono", monospace; }
+    .confetti-piece { position: fixed; animation: confettiFall 1.2s ease forwards; pointer-events: none; z-index: 9999; }
+    @keyframes confettiFall { 0%{transform:translateY(0) rotate(0deg);opacity:1;} 100%{transform:translateY(300px) rotate(720deg);opacity:0;} }
   </style>
 </head>
 <body>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+  <div class="blob blob-3"></div>
   <div class="container">
     <header>
-      <div class="tag">⚡ OPS TOOL</div>
-      <h1>LS Data<br/><span>Converter</span></h1>
-      <p>Convert raw Zoom webinar exports into Exotel-ready format — instantly, in your browser.</p>
+      <div class="badge">&#9889; OPS TOOL</div>
+      <h1>LS Data<br/><span class="accent">Formatter</span></h1>
+      <p class="subtitle">Convert raw Zoom webinar exports into Exotel-ready format &mdash; instantly, in your browser.</p>
     </header>
 
-    <!-- Step 1: Config -->
-    <div class="card">
-      <div class="card-title">01 — CONFIGURATION</div>
-
+    <div class="card card-1">
+      <div class="card-header">
+        <div class="card-icon">&#9881;&#65039;</div>
+        <div>
+          <div class="card-title">Configuration</div>
+          <div class="card-subtitle">Set your Zoom base URL</div>
+        </div>
+      </div>
       <label>Zoom Webinar Base URL</label>
-      <input type="text" id="baseUrl" 
-        value="https://zoom.us/webinar/register/" 
-        placeholder="https://zoom.us/webinar/register/" />
-      
-
-      <div style="margin-top:14px;background:var(--surface);border:1px solid rgba(109,255,179,0.2);border-radius:8px;padding:12px 16px;">
-        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);">✅ Zoom Webinar ID, Meeting ID &amp; Country Code are auto-detected from CSV</span><br/>
-        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);">No manual input required — everything is read from your uploaded file</span>
+      <input type="text" id="baseUrl" value="https://zoom.us/webinar/register/" placeholder="https://zoom.us/webinar/register/"/>
+      <div class="auto-banner">
+        <div class="icon">&#129302;</div>
+        <div>
+          <strong>Everything else is auto-detected from your CSV</strong>
+          <p>Zoom Webinar ID &rarr; from <code>zoomads</code> column<br/>
+          Meeting ID &rarr; from <code>zoomid</code> column<br/>
+          Country Code &rarr; from <code>CountryCode</code> column (per row)</p>
+        </div>
       </div>
-      <input type="hidden" id="zoomSuffix" value="" />
-      <input type="hidden" id="zoomMeetingId" value="" />
-
-      <span class="help-toggle" onclick="toggleHelp()">ℹ How does this work?</span>
+      <span class="help-toggle" onclick="toggleHelp()">&#8505; How does this work?</span>
       <div class="help-box" id="helpBox">
-        <strong style="color:var(--text)">Input CSV columns used:</strong><br/>
-        &nbsp;&nbsp;<span style="color:var(--accent)">Phone</span> → cleaned and formatted as <code>'+91-XXXXXXXXXX</code><br/>
-        &nbsp;&nbsp;<span style="color:var(--accent)">emailid</span> → passed through as-is<br/>
-        &nbsp;&nbsp;<span style="color:var(--accent)">zoomads</span> → prefixed with base URL → full webinar link<br/>
-        &nbsp;&nbsp;<span style="color:var(--accent)">zoomid</span> → numeric webinar meeting ID<br/><br/>
-        <strong style="color:var(--text)">Output format:</strong><br/>
-        &nbsp;&nbsp;Phone, emailid, zoomads, zoomid
+        <strong style="color:var(--dark)">Input columns used:</strong><br/>
+        &nbsp;&nbsp;<span style="color:var(--coral)">Phone</span> + <span style="color:var(--coral)">CountryCode</span> &rarr; <code>'+91-9876543210</code><br/>
+        &nbsp;&nbsp;<span style="color:var(--coral)">emailid</span> &rarr; passed through as-is<br/>
+        &nbsp;&nbsp;<span style="color:var(--coral)">zoomads</span> &rarr; base URL + suffix = full webinar link<br/>
+        &nbsp;&nbsp;<span style="color:var(--coral)">zoomid</span> &rarr; cleaned numeric meeting ID<br/><br/>
+        <strong style="color:var(--dark)">Output columns:</strong> Phone, emailid, zoomads, zoomid
       </div>
+      <input type="hidden" id="zoomSuffix" value=""/>
+      <input type="hidden" id="zoomMeetingId" value=""/>
     </div>
 
-    <!-- Step 2: Upload -->
-    <div class="card">
-      <div class="card-title">02 — UPLOAD SOURCE FILE</div>
+    <div class="card card-2">
+      <div class="card-header">
+        <div class="card-icon">&#128194;</div>
+        <div>
+          <div class="card-title">Upload Source File</div>
+          <div class="card-subtitle">Your original Zoom export CSV</div>
+        </div>
+      </div>
       <div class="upload-zone" id="uploadZone">
-        <input type="file" accept=".csv" id="csvFile" onchange="handleFile(event)" />
-        <span class="upload-icon">📂</span>
-        <p>Drop your source CSV here, or click to browse</p>
-        <p style="margin-top:4px;font-size:11px;">Required columns: Phone · emailid · zoomads · zoomid · CountryCode</p>
-        <div class="file-name" id="fileName"></div>
+        <input type="file" accept=".csv" id="csvFile" onchange="handleFile(event)"/>
+        <span class="upload-emoji">&#128196;</span>
+        <h3>Drop your CSV here, or click to browse</h3>
+        <p>Required columns: Phone &middot; emailid &middot; zoomads &middot; zoomid &middot; CountryCode</p>
+        <div class="file-name" id="fileName" style="display:none;"></div>
       </div>
       <div id="uploadAlert"></div>
     </div>
 
-    <!-- Step 3: Preview -->
-    <div class="card" id="previewCard" style="display:none;">
-      <div class="card-title">03 — OUTPUT PREVIEW</div>
+    <div class="card card-3" id="previewCard" style="display:none;">
+      <div class="card-header">
+        <div class="card-icon">&#128064;</div>
+        <div>
+          <div class="card-title">Output Preview</div>
+          <div class="card-subtitle">First 5 rows of converted data</div>
+        </div>
+      </div>
       <div class="stats" id="statsBar"></div>
-      <div class="table-wrap" style="margin-top:16px;">
+      <div class="table-wrap">
         <table id="previewTable"></table>
       </div>
     </div>
 
-    <!-- Step 4: Convert -->
-    <div class="card">
-      <div class="card-title">04 — EXPORT</div>
+    <div class="card card-4">
+      <div class="card-header">
+        <div class="card-icon">&#128640;</div>
+        <div>
+          <div class="card-title">Export</div>
+          <div class="card-subtitle">Download your Exotel-ready CSV</div>
+        </div>
+      </div>
       <button class="btn" id="convertBtn" onclick="convertAndDownload()" disabled>
-        ⬇ &nbsp;Export Converted CSV
+        &#8595; &nbsp;Export Converted CSV
       </button>
-      <div class="progress-bar" id="progressBar">
-        <div class="progress-fill" id="progressFill"></div>
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-label" id="progressLabel">Processing...</div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
       </div>
       <div id="convertAlert"></div>
     </div>
 
-    <footer>LS DATA CONVERTER &nbsp;·&nbsp; EXOTEL READY &nbsp;·&nbsp; OPS TOOL</footer>
+    <footer>LS DATA FORMATTER &nbsp;&middot;&nbsp; EXOTEL READY &nbsp;&middot;&nbsp; OPS TOOL</footer>
   </div>
 
   <script>
-    let parsedRows = [];
-    let headers = [];
+    let parsedRows = [], headers = [];
 
-    function toggleHelp() {
-      document.getElementById('helpBox').classList.toggle('open');
-    }
+    function toggleHelp() { document.getElementById("helpBox").classList.toggle("open"); }
 
-    // Drag-drop styling
-    const zone = document.getElementById('uploadZone');
-    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
-    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
-    zone.addEventListener('drop', e => {
-      e.preventDefault();
-      zone.classList.remove('drag-over');
-      const file = e.dataTransfer.files[0];
-      if (file) processFile(file);
-    });
+    const zone = document.getElementById("uploadZone");
+    zone.addEventListener("dragover", e => { e.preventDefault(); zone.classList.add("drag-over"); });
+    zone.addEventListener("dragleave", () => zone.classList.remove("drag-over"));
+    zone.addEventListener("drop", e => { e.preventDefault(); zone.classList.remove("drag-over"); const f = e.dataTransfer.files[0]; if(f) processFile(f); });
 
-    function handleFile(event) {
-      const file = event.target.files[0];
-      if (file) processFile(file);
-    }
+    function handleFile(e) { const f = e.target.files[0]; if(f) processFile(f); }
 
     function processFile(file) {
-      if (!file.name.endsWith('.csv')) {
-        showAlert('uploadAlert', 'error', '❌ Invalid file type. Please upload a .csv file.');
-        return;
-      }
-      document.getElementById('fileName').textContent = '📄 ' + file.name;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const text = e.target.result;
-        parseCSV(text);
-      };
-      reader.readAsText(file);
+      if (!file.name.endsWith(".csv")) { showAlert("uploadAlert","error","Invalid file type. Please upload a .csv file."); return; }
+      const fn = document.getElementById("fileName");
+      fn.textContent = "📄 " + file.name; fn.style.display = "inline-flex";
+      const r = new FileReader();
+      r.onload = e => parseCSV(e.target.result);
+      r.readAsText(file);
     }
 
     function parseCSV(text) {
-      // Normalize line endings
-      const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').filter(l => l.trim());
-      if (lines.length < 2) {
-        showAlert('uploadAlert', 'error', '❌ File appears empty or contains no data rows.');
-        return;
-      }
-
-      headers = parseCSVLine(lines[0]).map(h => h.trim());
+      const lines = text.replace(/
+/g,"
+").replace(/
+/g,"
+").split("
+").filter(l=>l.trim());
+      if (lines.length < 2) { showAlert("uploadAlert","error","File appears empty or contains no data rows."); return; }
+      headers = parseCSVLine(lines[0]).map(h=>h.trim());
       parsedRows = lines.slice(1).map(l => {
-        const vals = parseCSVLine(l);
-        const obj = {};
-        headers.forEach((h, i) => { obj[h] = (vals[i] || '').trim(); });
+        const vals = parseCSVLine(l), obj = {};
+        headers.forEach((h,i) => { obj[h] = (vals[i]||"").trim(); });
         return obj;
-      }).filter(r => Object.values(r).some(v => v));
-
-      const reqCols = ['Phone', 'emailid'];
-      const missing = reqCols.filter(c => !headers.includes(c));
-      if (missing.length) {
-        showAlert('uploadAlert', 'error', `❌ Missing required columns: ${missing.join(', ')}`);
-        return;
-      }
-
-      showAlert('uploadAlert', 'success', `✅ ${parsedRows.length} records loaded successfully.`);
+      }).filter(r => Object.values(r).some(v=>v));
+      const missing = ["Phone","emailid"].filter(c=>!headers.includes(c));
+      if (missing.length) { showAlert("uploadAlert","error","Missing required columns: "+missing.join(", ")); return; }
+      showAlert("uploadAlert","success","✅ " + parsedRows.length.toLocaleString() + " records loaded successfully.");
       showPreview();
-      document.getElementById('convertBtn').disabled = false;
-
-      // Always auto-fill zoomads + zoomid from CSV first row
-      if (headers.includes('zoomads')) {
-        const sample = parsedRows[0]['zoomads'] || '';
-        if (sample.startsWith('http')) {
-          const parts = sample.split('/register/');
-          document.getElementById('zoomSuffix').value = parts.length > 1 ? parts[1] : sample;
-        } else if (sample) {
-          document.getElementById('zoomSuffix').value = sample;
-        }
+      document.getElementById("convertBtn").disabled = false;
+      if (headers.includes("zoomads")) {
+        const s = parsedRows[0]["zoomads"]||"";
+        if (s.startsWith("http")) { const p=s.split("/register/"); document.getElementById("zoomSuffix").value = p.length>1?p[1]:s; }
+        else if (s) document.getElementById("zoomSuffix").value = s;
       }
-      if (headers.includes('zoomid')) {
-        const sample = parsedRows[0]['zoomid'] || '';
-        const cleaned = sample.replace(/\s/g, '');
-        if (cleaned) document.getElementById('zoomMeetingId').value = cleaned;
+      if (headers.includes("zoomid")) {
+        const s = (parsedRows[0]["zoomid"]||"").replace(/\s/g,"");
+        if (s) document.getElementById("zoomMeetingId").value = s;
       }
     }
 
     function parseCSVLine(line) {
-      const result = [];
-      let cur = '';
-      let inQuotes = false;
-      for (let i = 0; i < line.length; i++) {
-        const ch = line[i];
-        if (ch === '"') {
-          inQuotes = !inQuotes;
-        } else if (ch === ',' && !inQuotes) {
-          result.push(cur);
-          cur = '';
-        } else {
-          cur += ch;
-        }
-      }
-      result.push(cur);
-      return result;
+      const res=[]; let cur="",inQ=false;
+      for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){inQ=!inQ;}else if(c===","&&!inQ){res.push(cur);cur="";}else{cur+=c;}}
+      res.push(cur); return res;
     }
 
-    function formatPhone(phone, countryCode) {
-      // Strip all non-digit characters
-      let digits = phone.replace(/\D/g, '');
-      const cc = (countryCode || '91').replace(/\D/g, '');
-      // Remove leading country code if already prepended
-      if (digits.startsWith(cc) && digits.length > cc.length + 7) {
-        digits = digits.slice(cc.length);
-      }
-      // Keep last 10 digits
-      if (digits.length > 10) digits = digits.slice(-10);
-      // Exact Excel formula: ="'+"&CC&"-"&Phone
-      return `'+${cc}-${digits}`;
+    function formatPhone(phone, cc) {
+      let d = phone.replace(/\D/g,"");
+      const c = (cc||"91").replace(/\D/g,"");
+      if (d.startsWith(c) && d.length > c.length+7) d = d.slice(c.length);
+      if (d.length > 10) d = d.slice(-10);
+      return "'+"+c+"-"+d;
     }
 
     function convertRow(row) {
-      // Auto-detect country code from CSV row's CountryCode column
-      const cc = (row['CountryCode'] || row['countrycode'] || row['country_code'] || '91').replace(/\D/g, '');
-      let baseUrl = document.getElementById('baseUrl').value.trim();
-      if (!baseUrl.endsWith('/')) baseUrl += '/';
-      const zoomSuffix = document.getElementById('zoomSuffix').value.trim();
-      const overrideMeetingId = document.getElementById('zoomMeetingId').value.trim();
-
-      // Phone
-      const rawPhone = row['Phone'] || row['phone'] || '';
-      const phone = formatPhone(rawPhone, cc);
-
-      // Email
-      const email = row['emailid'] || row['email'] || '';
-
-      // Zoom ads (full URL)
-      const rowZoomads = row['zoomads'] || '';
-      let suffix = zoomSuffix || rowZoomads;
-      // If already a full URL, extract suffix
-      if (suffix.startsWith('http')) {
-        const parts = suffix.split('/register/');
-        suffix = parts.length > 1 ? parts[1] : suffix;
-      }
-      const zoomads = baseUrl + suffix;
-
-      // Zoom meeting ID
-      const rawId = overrideMeetingId || (row['zoomid'] || '');
-      const zoomid = rawId.replace(/\s/g, '');
-
-      return { Phone: phone, emailid: email, zoomads, zoomid };
+      const cc = (row["CountryCode"]||row["countrycode"]||"91").replace(/\D/g,"");
+      let base = document.getElementById("baseUrl").value.trim();
+      if (!base.endsWith("/")) base += "/";
+      const sfx = document.getElementById("zoomSuffix").value.trim();
+      const mid = document.getElementById("zoomMeetingId").value.trim();
+      const phone = formatPhone(row["Phone"]||"", cc);
+      const email = row["emailid"]||"";
+      let suffix = sfx || (row["zoomads"]||"");
+      if (suffix.startsWith("http")) { const p=suffix.split("/register/"); suffix=p.length>1?p[1]:suffix; }
+      const zoomads = base + suffix;
+      const zoomid = (mid||(row["zoomid"]||"")).replace(/\s/g,"");
+      return {Phone:phone, emailid:email, zoomads, zoomid};
     }
 
     function showPreview() {
-      const card = document.getElementById('previewCard');
-      card.style.display = 'block';
-
-      // Stats
-      const statsBar = document.getElementById('statsBar');
-      statsBar.innerHTML = `
-        <div class="stat"><strong>${parsedRows.length}</strong>Total Rows</div>
-        <div class="stat"><strong>${headers.length}</strong>Columns</div>
-        <div class="stat"><strong>4</strong>Output Columns</div>
-      `;
-
-      // Preview table with converted data
-      const preview = parsedRows.slice(0, 5).map(convertRow);
-      const cols = ['Phone', 'emailid', 'zoomads', 'zoomid'];
-
-      const table = document.getElementById('previewTable');
-      let html = '<thead><tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
-      preview.forEach(row => {
-        html += '<tr>' + cols.map(c => `<td title="${row[c]}">${row[c]}</td>`).join('') + '</tr>';
-      });
-      html += '</tbody>';
-      table.innerHTML = html;
+      document.getElementById("previewCard").style.display = "block";
+      document.getElementById("statsBar").innerHTML =
+        '<div class="stat"><strong>'+parsedRows.length.toLocaleString()+'</strong><span>Total Rows</span></div>' +
+        '<div class="stat"><strong>'+headers.length+'</strong><span>Input Cols</span></div>' +
+        '<div class="stat"><strong>4</strong><span>Output Cols</span></div>';
+      const cols=["Phone","emailid","zoomads","zoomid"];
+      const preview=parsedRows.slice(0,5).map(convertRow);
+      let html='<thead><tr>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>';
+      preview.forEach(row=>{ html+='<tr>'+cols.map(c=>'<td title="'+row[c]+'">'+row[c]+'</td>').join('')+'</tr>'; });
+      document.getElementById("previewTable").innerHTML = html+'</tbody>';
     }
 
     function convertAndDownload() {
       if (!parsedRows.length) return;
-
-      const bar = document.getElementById('progressBar');
-      const fill = document.getElementById('progressFill');
-      bar.classList.add('show');
-
-      const cols = ['Phone', 'emailid', 'zoomads', 'zoomid'];
-      const total = parsedRows.length;
-      let csvContent = cols.join(',') + '\n';
-
-      // Process in chunks to show progress
-      let i = 0;
-      function chunk() {
-        const end = Math.min(i + 500, total);
-        for (; i < end; i++) {
-          const row = convertRow(parsedRows[i]);
-          csvContent += cols.map(c => `"${(row[c] || '').replace(/"/g, '""')}"`).join(',') + '\n';
-        }
-        fill.style.width = Math.round((i / total) * 100) + '%';
-        if (i < total) {
-          requestAnimationFrame(chunk);
-        } else {
-          // Done — trigger download
-          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = url;
-          const date = new Date().toISOString().slice(0,10);
-          link.download = `converted_zoom_${date}.csv`;
-          link.click();
-          URL.revokeObjectURL(url);
-          showAlert('convertAlert', 'success', `✅ ${total} records converted and exported successfully.`);
-          setTimeout(() => { fill.style.width = '0%'; bar.classList.remove('show'); }, 1500);
+      const wrap=document.getElementById("progressWrap"), fill=document.getElementById("progressFill"), lbl=document.getElementById("progressLabel");
+      wrap.classList.add("show");
+      const cols=["Phone","emailid","zoomads","zoomid"], total=parsedRows.length;
+      let csv=cols.join(",")+"
+", i=0;
+      function chunk(){
+        const end=Math.min(i+500,total);
+        for(;i<end;i++){const row=convertRow(parsedRows[i]); csv+=cols.map(c=>'"'+(row[c]||"").replace(/"/g,'""')+'"').join(",")+"
+";}
+        const pct=Math.round(i/total*100);
+        fill.style.width=pct+"%"; lbl.textContent="Processing... "+pct+"%";
+        if(i<total){requestAnimationFrame(chunk);}
+        else{
+          const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+          const url=URL.createObjectURL(blob), a=document.createElement("a");
+          a.href=url; a.download="ls_data_"+new Date().toISOString().slice(0,10)+".csv"; a.click(); URL.revokeObjectURL(url);
+          showAlert("convertAlert","success","&#127881; "+total.toLocaleString()+" records exported successfully!");
+          lbl.textContent="Done!"; launchConfetti();
+          setTimeout(()=>{ fill.style.width="0%"; wrap.classList.remove("show"); },2000);
         }
       }
       chunk();
     }
 
-    function showAlert(containerId, type, message) {
-      const el = document.getElementById(containerId);
-      el.innerHTML = `<div class="alert ${type}">${message}</div>`;
+    function launchConfetti(){
+      const colors=["#ff5c3a","#ffd234","#1fd899","#3a7bff","#9b5de5"];
+      for(let i=0;i<45;i++){
+        const el=document.createElement("div"); el.className="confetti-piece";
+        const size=Math.random()*8+6;
+        el.style.cssText="left:"+Math.random()*100+"vw;top:"+(Math.random()*40+20)+"vh;background:"+colors[Math.floor(Math.random()*colors.length)]+";animation-delay:"+Math.random()*0.5+"s;width:"+size+"px;height:"+size+"px;border-radius:"+(Math.random()>0.5?"50%":"3px")+";";
+        document.body.appendChild(el);
+        setTimeout(()=>el.remove(),1800);
+      }
     }
+
+    function showAlert(id,type,msg){ document.getElementById(id).innerHTML='<div class="alert '+type+'">'+msg+'</div>'; }
   </script>
 </body>
 </html>
