@@ -69,7 +69,7 @@
     .auto-banner p { font-size: 12px; color: #555; margin-top: 4px; line-height: 1.7; font-family: "Commit Mono", monospace; }
     .upload-zone { border: 2.5px dashed #ccc; border-radius: 14px; padding: 44px 24px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; background: #fafafa; }
     .upload-zone:hover, .upload-zone.drag-over { border-color: var(--blue); background: #f0f5ff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(58,123,255,0.12); }
-    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; }
+    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; z-index: 10; }
     .upload-emoji { font-size: 44px; display: block; margin-bottom: 12px; animation: bounce 2s ease-in-out infinite; }
     @keyframes bounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
     .upload-zone h3 { font-size: 16px; font-weight: 800; color: var(--dark); margin-bottom: 4px; }
@@ -156,8 +156,8 @@
           <div class="card-subtitle">Your original Zoom export CSV</div>
         </div>
       </div>
-      <div class="upload-zone" id="uploadZone">
-        <input type="file" accept=".csv" id="csvFile" onchange="handleFile(event)"/>
+      <input type="file" accept=".csv" id="csvFile" onchange="handleFile(event)" style="display:none;"/>
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('csvFile').click()">
         <span class="upload-emoji">&#128196;</span>
         <h3>Drop your CSV here, or click to browse</h3>
         <p>Required columns: Phone &middot; emailid &middot; zoomads &middot; zoomid &middot; CountryCode</p>
@@ -209,7 +209,10 @@
     const zone = document.getElementById("uploadZone");
     zone.addEventListener("dragover", e => { e.preventDefault(); zone.classList.add("drag-over"); });
     zone.addEventListener("dragleave", () => zone.classList.remove("drag-over"));
-    zone.addEventListener("drop", e => { e.preventDefault(); zone.classList.remove("drag-over"); const f = e.dataTransfer.files[0]; if(f) processFile(f); });
+    zone.addEventListener("drop", e => {
+      e.preventDefault(); zone.classList.remove("drag-over");
+      const f = e.dataTransfer.files[0]; if(f) processFile(f);
+    });
 
     function handleFile(e) { const f = e.target.files[0]; if(f) processFile(f); }
 
@@ -223,115 +226,119 @@
     }
 
     function parseCSV(text) {
-      const lines = text.replace(/
-/g,"
-").replace(/
-/g,"
-").split("
-").filter(l=>l.trim());
+      const lines = text.split(/\r\n|\r|\n/).filter(l => l.trim());
       if (lines.length < 2) { showAlert("uploadAlert","error","File appears empty or contains no data rows."); return; }
-      headers = parseCSVLine(lines[0]).map(h=>h.trim());
+      headers = parseCSVLine(lines[0]).map(h => h.trim());
       parsedRows = lines.slice(1).map(l => {
         const vals = parseCSVLine(l), obj = {};
         headers.forEach((h,i) => { obj[h] = (vals[i]||"").trim(); });
         return obj;
-      }).filter(r => Object.values(r).some(v=>v));
-      const missing = ["Phone","emailid"].filter(c=>!headers.includes(c));
+      }).filter(r => Object.values(r).some(v => v));
+      const missing = ["Phone","emailid"].filter(c => !headers.includes(c));
       if (missing.length) { showAlert("uploadAlert","error","Missing required columns: "+missing.join(", ")); return; }
       showAlert("uploadAlert","success","✅ " + parsedRows.length.toLocaleString() + " records loaded successfully.");
       showPreview();
       document.getElementById("convertBtn").disabled = false;
       if (headers.includes("zoomads")) {
-        const s = parsedRows[0]["zoomads"]||"";
-        if (s.startsWith("http")) { const p=s.split("/register/"); document.getElementById("zoomSuffix").value = p.length>1?p[1]:s; }
+        const s = parsedRows[0]["zoomads"] || "";
+        if (s.startsWith("http")) { const p = s.split("/register/"); document.getElementById("zoomSuffix").value = p.length>1 ? p[1] : s; }
         else if (s) document.getElementById("zoomSuffix").value = s;
       }
       if (headers.includes("zoomid")) {
-        const s = (parsedRows[0]["zoomid"]||"").replace(/\s/g,"");
+        const s = (parsedRows[0]["zoomid"] || "").replace(/\s+/g, "");
         if (s) document.getElementById("zoomMeetingId").value = s;
       }
     }
 
     function parseCSVLine(line) {
-      const res=[]; let cur="",inQ=false;
-      for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){inQ=!inQ;}else if(c===","&&!inQ){res.push(cur);cur="";}else{cur+=c;}}
+      const res = []; let cur = "", inQ = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (c === '"') { inQ = !inQ; }
+        else if (c === "," && !inQ) { res.push(cur); cur = ""; }
+        else { cur += c; }
+      }
       res.push(cur); return res;
     }
 
     function formatPhone(phone, cc) {
-      let d = phone.replace(/\D/g,"");
-      const c = (cc||"91").replace(/\D/g,"");
-      if (d.startsWith(c) && d.length > c.length+7) d = d.slice(c.length);
+      let d = phone.replace(/[^0-9]/g, "");
+      const c = (cc || "91").replace(/[^0-9]/g, "");
+      if (d.startsWith(c) && d.length > c.length + 7) d = d.slice(c.length);
       if (d.length > 10) d = d.slice(-10);
-      return "'+"+c+"-"+d;
+      return "'+" + c + "-" + d;
     }
 
     function convertRow(row) {
-      const cc = (row["CountryCode"]||row["countrycode"]||"91").replace(/\D/g,"");
+      const cc = (row["CountryCode"] || row["countrycode"] || "91").replace(/[^0-9]/g, "");
       let base = document.getElementById("baseUrl").value.trim();
       if (!base.endsWith("/")) base += "/";
       const sfx = document.getElementById("zoomSuffix").value.trim();
       const mid = document.getElementById("zoomMeetingId").value.trim();
-      const phone = formatPhone(row["Phone"]||"", cc);
-      const email = row["emailid"]||"";
-      let suffix = sfx || (row["zoomads"]||"");
-      if (suffix.startsWith("http")) { const p=suffix.split("/register/"); suffix=p.length>1?p[1]:suffix; }
+      const phone = formatPhone(row["Phone"] || "", cc);
+      const email = row["emailid"] || "";
+      let suffix = sfx || (row["zoomads"] || "");
+      if (suffix.startsWith("http")) { const p = suffix.split("/register/"); suffix = p.length>1 ? p[1] : suffix; }
       const zoomads = base + suffix;
-      const zoomid = (mid||(row["zoomid"]||"")).replace(/\s/g,"");
-      return {Phone:phone, emailid:email, zoomads, zoomid};
+      const zoomid = (mid || (row["zoomid"] || "")).replace(/\s+/g, "");
+      return { Phone: phone, emailid: email, zoomads: zoomads, zoomid: zoomid };
     }
 
     function showPreview() {
       document.getElementById("previewCard").style.display = "block";
       document.getElementById("statsBar").innerHTML =
-        '<div class="stat"><strong>'+parsedRows.length.toLocaleString()+'</strong><span>Total Rows</span></div>' +
-        '<div class="stat"><strong>'+headers.length+'</strong><span>Input Cols</span></div>' +
+        '<div class="stat"><strong>' + parsedRows.length.toLocaleString() + '</strong><span>Total Rows</span></div>' +
+        '<div class="stat"><strong>' + headers.length + '</strong><span>Input Cols</span></div>' +
         '<div class="stat"><strong>4</strong><span>Output Cols</span></div>';
-      const cols=["Phone","emailid","zoomads","zoomid"];
-      const preview=parsedRows.slice(0,5).map(convertRow);
-      let html='<thead><tr>'+cols.map(c=>'<th>'+c+'</th>').join('')+'</tr></thead><tbody>';
-      preview.forEach(row=>{ html+='<tr>'+cols.map(c=>'<td title="'+row[c]+'">'+row[c]+'</td>').join('')+'</tr>'; });
-      document.getElementById("previewTable").innerHTML = html+'</tbody>';
+      const cols = ["Phone","emailid","zoomads","zoomid"];
+      const preview = parsedRows.slice(0,5).map(convertRow);
+      let html = '<thead><tr>' + cols.map(c => '<th>'+c+'</th>').join('') + '</tr></thead><tbody>';
+      preview.forEach(row => { html += '<tr>' + cols.map(c => '<td title="'+row[c]+'">'+row[c]+'</td>').join('') + '</tr>'; });
+      document.getElementById("previewTable").innerHTML = html + '</tbody>';
     }
 
     function convertAndDownload() {
       if (!parsedRows.length) return;
-      const wrap=document.getElementById("progressWrap"), fill=document.getElementById("progressFill"), lbl=document.getElementById("progressLabel");
+      const wrap = document.getElementById("progressWrap");
+      const fill = document.getElementById("progressFill");
+      const lbl = document.getElementById("progressLabel");
       wrap.classList.add("show");
-      const cols=["Phone","emailid","zoomads","zoomid"], total=parsedRows.length;
-      let csv=cols.join(",")+"
-", i=0;
-      function chunk(){
-        const end=Math.min(i+500,total);
-        for(;i<end;i++){const row=convertRow(parsedRows[i]); csv+=cols.map(c=>'"'+(row[c]||"").replace(/"/g,'""')+'"').join(",")+"
-";}
-        const pct=Math.round(i/total*100);
-        fill.style.width=pct+"%"; lbl.textContent="Processing... "+pct+"%";
-        if(i<total){requestAnimationFrame(chunk);}
-        else{
-          const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
-          const url=URL.createObjectURL(blob), a=document.createElement("a");
-          a.href=url; a.download="ls_data_"+new Date().toISOString().slice(0,10)+".csv"; a.click(); URL.revokeObjectURL(url);
-          showAlert("convertAlert","success","&#127881; "+total.toLocaleString()+" records exported successfully!");
-          lbl.textContent="Done!"; launchConfetti();
-          setTimeout(()=>{ fill.style.width="0%"; wrap.classList.remove("show"); },2000);
+      const cols = ["Phone","emailid","zoomads","zoomid"], total = parsedRows.length;
+      let csv = cols.join(",") + "\n", i = 0;
+      function chunk() {
+        const end = Math.min(i + 500, total);
+        for (; i < end; i++) {
+          const row = convertRow(parsedRows[i]);
+          csv += cols.map(c => '"' + (row[c]||"").replace(/"/g, '""') + '"').join(",") + "\n";
+        }
+        const pct = Math.round(i / total * 100);
+        fill.style.width = pct + "%"; lbl.textContent = "Processing... " + pct + "%";
+        if (i < total) { requestAnimationFrame(chunk); }
+        else {
+          const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+          const url = URL.createObjectURL(blob), a = document.createElement("a");
+          a.href = url; a.download = "ls_data_" + new Date().toISOString().slice(0,10) + ".csv";
+          a.click(); URL.revokeObjectURL(url);
+          showAlert("convertAlert","success","🎉 " + total.toLocaleString() + " records exported successfully!");
+          lbl.textContent = "Done!"; launchConfetti();
+          setTimeout(() => { fill.style.width = "0%"; wrap.classList.remove("show"); }, 2000);
         }
       }
       chunk();
     }
 
-    function launchConfetti(){
-      const colors=["#ff5c3a","#ffd234","#1fd899","#3a7bff","#9b5de5"];
-      for(let i=0;i<45;i++){
-        const el=document.createElement("div"); el.className="confetti-piece";
-        const size=Math.random()*8+6;
-        el.style.cssText="left:"+Math.random()*100+"vw;top:"+(Math.random()*40+20)+"vh;background:"+colors[Math.floor(Math.random()*colors.length)]+";animation-delay:"+Math.random()*0.5+"s;width:"+size+"px;height:"+size+"px;border-radius:"+(Math.random()>0.5?"50%":"3px")+";";
+    function launchConfetti() {
+      const colors = ["#ff5c3a","#ffd234","#1fd899","#3a7bff","#9b5de5"];
+      for (let i = 0; i < 45; i++) {
+        const el = document.createElement("div"); el.className = "confetti-piece";
+        const size = Math.random() * 8 + 6;
+        el.style.cssText = "left:" + (Math.random()*100) + "vw;top:" + (Math.random()*40+20) + "vh;background:" + colors[Math.floor(Math.random()*colors.length)] + ";animation-delay:" + (Math.random()*0.5) + "s;width:" + size + "px;height:" + size + "px;border-radius:" + (Math.random()>0.5 ? "50%" : "3px") + ";";
         document.body.appendChild(el);
-        setTimeout(()=>el.remove(),1800);
+        setTimeout(() => el.remove(), 1800);
       }
     }
 
-    function showAlert(id,type,msg){ document.getElementById(id).innerHTML='<div class="alert '+type+'">'+msg+'</div>'; }
+    function showAlert(id, type, msg) { document.getElementById(id).innerHTML = '<div class="alert ' + type + '">' + msg + '</div>'; }
   </script>
 </body>
 </html>
