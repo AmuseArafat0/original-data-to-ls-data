@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zoom CSV Converter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2e;
+      --accent: #6dffb3;
+      --accent2: #ff6d6d;
+      --text: #e8e8f0;
+      --muted: #6b6b80;
+      --card: #14141f;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Syne', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 80px;
+    }
+
+    /* Background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(109,255,179,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(109,255,179,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    header {
+      margin-bottom: 48px;
+      text-align: left;
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--accent);
+      border: 1px solid rgba(109,255,179,0.3);
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--text);
+    }
+
+    h1 span {
+      color: var(--accent);
+    }
+
+    header p {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Card */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      margin-bottom: 18px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent);
+    }
+
+    input[type="text"]::placeholder {
+      color: var(--muted);
+    }
+
+    /* Country code row */
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 500px) {
+      .row { grid-template-columns: 1fr; }
+    }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      position: relative;
+    }
+
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--accent);
+      background: rgba(109,255,179,0.03);
+    }
+
+    .upload-zone input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .upload-icon {
+      font-size: 36px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .upload-zone p {
+      color: var(--muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .upload-zone .file-name {
+      color: var(--accent);
+      font-weight: 600;
+      margin-top: 8px;
+      font-size: 13px;
+      font-family: 'Space Mono', monospace;
+    }
+
+    /* Preview table */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      margin-top: 4px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+    }
+
+    th {
+      background: var(--surface);
+      color: var(--accent);
+      padding: 10px 14px;
+      text-align: left;
+      white-space: nowrap;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 9px 14px;
+      border-top: 1px solid var(--border);
+      color: var(--text);
+      white-space: nowrap;
+      max-width: 220px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    tr:hover td { background: rgba(109,255,179,0.03); }
+
+    /* Stats bar */
+    .stats {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+
+    .stat {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+    }
+
+    .stat strong {
+      color: var(--accent);
+      font-size: 18px;
+      display: block;
+    }
+
+    /* Alerts */
+    .alert {
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      margin-top: 12px;
+      display: none;
+    }
+
+    .alert.error {
+      background: rgba(255,109,109,0.1);
+      border: 1px solid rgba(255,109,109,0.3);
+      color: var(--accent2);
+      display: block;
+    }
+
+    .alert.success {
+      background: rgba(109,255,179,0.08);
+      border: 1px solid rgba(109,255,179,0.3);
+      color: var(--accent);
+      display: block;
+    }
+
+    /* Button */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--accent);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 28px;
+      font-family: 'Syne', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+      width: 100%;
+      justify-content: center;
+      letter-spacing: 0.5px;
+    }
+
+    .btn:hover { opacity: 0.88; }
+    .btn:active { transform: scale(0.98); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Progress */
+    .progress-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-top: 16px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-bar.show { display: block; }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.3s;
+      width: 0%;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 48px;
+      text-align: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+    }
+
+    /* Toggle help */
+    .help-toggle {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      cursor: pointer;
+      text-decoration: underline;
+      margin-top: 8px;
+      display: inline-block;
+    }
+
+    .help-box {
+      background: var(--surface);
+      border-left: 2px solid var(--accent);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 10px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.8;
+      display: none;
+    }
+
+    .help-box.open { display: block; }
+
+    .step-num {
+      display: inline-block;
+      background: rgba(109,255,179,0.15);
+      color: var(--accent);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 22px;
+      font-size: 11px;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="tag">⚡ Ops Tool</div>
+      <h1>Zoom CSV<br/><span>Converter</span></h1>
+      <p>Original CSV → Exotel-ready format with full Zoom URLs &amp; phone codes.</p>
+    </header>
+
+    <!-- Step 1: Config -->
+    <div class="card">
+      <div class="card-title">01 — Configuration</div>
+
+      <label>Zoom Webinar Base URL</label>
+      <input type="text" id="baseUrl" 
+        value="https://zoom.us/webinar/register/" 
+        placeholder="https://zoom.us/webinar/register/" />
+      
+      <div style="margin-top:16px;">
+        <label>Zoom Webinar ID (the part after /register/)</label>
+        <input type="text" id="zoomSuffix" 
+          placeholder="e.g. WN_REV6WJ5hTNa85OQwB1EnNQ" />
+        <small style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px;display:block;">
+          Leave blank to auto-read from CSV's <code style="color:var(--accent)">zoomads</code> column
+        </small>
+      </div>
+
+      <div style="margin-top:16px;">
+          <label>Zoom Meeting ID (zoomid)</label>
+          <input type="text" id="zoomMeetingId" 
+            placeholder="e.g. 96579230896" />
+          <small style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);margin-top:6px;display:block;">
+            Leave blank to auto-read from CSV
+          </small>
+      </div>
+
+      <div style="margin-top:14px;background:var(--surface);border:1px solid rgba(109,255,179,0.2);border-radius:8px;padding:12px 16px;">
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);">✅ Country code auto-detected from <code>CountryCode</code> column</span><br/>
+        <span style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);">Formula used: <code style="color:var(--text)">'+"&amp;CountryCode&amp;"-"&amp;Phone</code> → e.g. <code style="color:var(--accent)">'+91-9876543210</code></span>
+      </div>
+
+      <span class="help-toggle" onclick="toggleHelp()">ℹ️ How does the conversion work?</span>
+      <div class="help-box" id="helpBox">
+        <strong style="color:var(--text)">Input CSV columns used:</strong><br/>
+        &nbsp;&nbsp;<span style="color:var(--accent)">Phone</span> → cleaned and formatted as <code>'+91-XXXXXXXXXX</code><br/>
+        &nbsp;&nbsp;<span style="color:var(--accent)">emailid</span> → passed through as-is<br/>
+        &nbsp;&nbsp;<span style="color:var(--accent)">zoomads</span> → prefixed with base URL → full webinar link<br/>
+        &nbsp;&nbsp;<span style="color:var(--accent)">zoomid</span> → numeric webinar meeting ID<br/><br/>
+        <strong style="color:var(--text)">Output format:</strong><br/>
+        &nbsp;&nbsp;Phone, emailid, zoomads, zoomid
+      </div>
+    </div>
+
+    <!-- Step 2: Upload -->
+    <div class="card">
+      <div class="card-title">02 — Upload Original CSV</div>
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" accept=".csv" id="csvFile" onchange="handleFile(event)" />
+        <span class="upload-icon">📂</span>
+        <p>Drop your CSV here or click to browse</p>
+        <p style="margin-top:4px;font-size:11px;">Expects columns: Phone, emailid, zoomads, zoomid, CountryCode</p>
+        <div class="file-name" id="fileName"></div>
+      </div>
+      <div id="uploadAlert"></div>
+    </div>
+
+    <!-- Step 3: Preview -->
+    <div class="card" id="previewCard" style="display:none;">
+      <div class="card-title">03 — Preview (first 5 rows)</div>
+      <div class="stats" id="statsBar"></div>
+      <div class="table-wrap" style="margin-top:16px;">
+        <table id="previewTable"></table>
+      </div>
+    </div>
+
+    <!-- Step 4: Convert -->
+    <div class="card">
+      <div class="card-title">04 — Convert &amp; Download</div>
+      <button class="btn" id="convertBtn" onclick="convertAndDownload()" disabled>
+        ⬇ Convert &amp; Download CSV
+      </button>
+      <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div id="convertAlert"></div>
+    </div>
+
+    <footer>ZOOM CSV CONVERTER &nbsp;·&nbsp; BUILT FOR OPS TEAM</footer>
+  </div>
+
+  <script>
+    let parsedRows = [];
+    let headers = [];
+
+    function toggleHelp() {
+      document.getElementById('helpBox').classList.toggle('open');
+    }
+
+    // Drag-drop styling
+    const zone = document.getElementById('uploadZone');
+    zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+      const file = e.dataTransfer.files[0];
+      if (file) processFile(file);
+    });
+
+    function handleFile(event) {
+      const file = event.target.files[0];
+      if (file) processFile(file);
+    }
+
+    function processFile(file) {
+      if (!file.name.endsWith('.csv')) {
+        showAlert('uploadAlert', 'error', '❌ Please upload a .csv file.');
+        return;
+      }
+      document.getElementById('fileName').textContent = '📄 ' + file.name;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const text = e.target.result;
+        parseCSV(text);
+      };
+      reader.readAsText(file);
+    }
+
+    function parseCSV(text) {
+      // Normalize line endings
+      const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n').filter(l => l.trim());
+      if (lines.length < 2) {
+        showAlert('uploadAlert', 'error', '❌ CSV appears empty or has no data rows.');
+        return;
+      }
+
+      headers = parseCSVLine(lines[0]).map(h => h.trim());
+      parsedRows = lines.slice(1).map(l => {
+        const vals = parseCSVLine(l);
+        const obj = {};
+        headers.forEach((h, i) => { obj[h] = (vals[i] || '').trim(); });
+        return obj;
+      }).filter(r => Object.values(r).some(v => v));
+
+      const reqCols = ['Phone', 'emailid'];
+      const missing = reqCols.filter(c => !headers.includes(c));
+      if (missing.length) {
+        showAlert('uploadAlert', 'error', `❌ Missing required columns: ${missing.join(', ')}`);
+        return;
+      }
+
+      showAlert('uploadAlert', 'success', `✅ Loaded ${parsedRows.length} rows successfully.`);
+      showPreview();
+      document.getElementById('convertBtn').disabled = false;
+
+      // Auto-fill Zoom suffix from first row if not set
+      if (!document.getElementById('zoomSuffix').value && headers.includes('zoomads')) {
+        const sample = parsedRows[0]['zoomads'] || '';
+        if (sample && !sample.startsWith('http')) {
+          document.getElementById('zoomSuffix').value = sample;
+        }
+      }
+      // Auto-fill zoomid
+      if (!document.getElementById('zoomMeetingId').value && headers.includes('zoomid')) {
+        const sample = parsedRows[0]['zoomid'] || '';
+        const cleaned = sample.replace(/\s/g, '');
+        if (cleaned) document.getElementById('zoomMeetingId').value = cleaned;
+      }
+    }
+
+    function parseCSVLine(line) {
+      const result = [];
+      let cur = '';
+      let inQuotes = false;
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (ch === '"') {
+          inQuotes = !inQuotes;
+        } else if (ch === ',' && !inQuotes) {
+          result.push(cur);
+          cur = '';
+        } else {
+          cur += ch;
+        }
+      }
+      result.push(cur);
+      return result;
+    }
+
+    function formatPhone(phone, countryCode) {
+      // Strip all non-digit characters
+      let digits = phone.replace(/\D/g, '');
+      const cc = (countryCode || '91').replace(/\D/g, '');
+      // Remove leading country code if already prepended
+      if (digits.startsWith(cc) && digits.length > cc.length + 7) {
+        digits = digits.slice(cc.length);
+      }
+      // Keep last 10 digits
+      if (digits.length > 10) digits = digits.slice(-10);
+      // Exact Excel formula: ="'+"&CC&"-"&Phone
+      return `'+${cc}-${digits}`;
+    }
+
+    function convertRow(row) {
+      // Auto-detect country code from CSV row's CountryCode column
+      const cc = (row['CountryCode'] || row['countrycode'] || row['country_code'] || '91').replace(/\D/g, '');
+      let baseUrl = document.getElementById('baseUrl').value.trim();
+      if (!baseUrl.endsWith('/')) baseUrl += '/';
+      const zoomSuffix = document.getElementById('zoomSuffix').value.trim();
+      const overrideMeetingId = document.getElementById('zoomMeetingId').value.trim();
+
+      // Phone
+      const rawPhone = row['Phone'] || row['phone'] || '';
+      const phone = formatPhone(rawPhone, cc);
+
+      // Email
+      const email = row['emailid'] || row['email'] || '';
+
+      // Zoom ads (full URL)
+      const rowZoomads = row['zoomads'] || '';
+      let suffix = zoomSuffix || rowZoomads;
+      // If already a full URL, extract suffix
+      if (suffix.startsWith('http')) {
+        const parts = suffix.split('/register/');
+        suffix = parts.length > 1 ? parts[1] : suffix;
+      }
+      const zoomads = baseUrl + suffix;
+
+      // Zoom meeting ID
+      const rawId = overrideMeetingId || (row['zoomid'] || '');
+      const zoomid = rawId.replace(/\s/g, '');
+
+      return { Phone: phone, emailid: email, zoomads, zoomid };
+    }
+
+    function showPreview() {
+      const card = document.getElementById('previewCard');
+      card.style.display = 'block';
+
+      // Stats
+      const statsBar = document.getElementById('statsBar');
+      statsBar.innerHTML = `
+        <div class="stat"><strong>${parsedRows.length}</strong>Total Rows</div>
+        <div class="stat"><strong>${headers.length}</strong>Columns</div>
+        <div class="stat"><strong>4</strong>Output Columns</div>
+      `;
+
+      // Preview table with converted data
+      const preview = parsedRows.slice(0, 5).map(convertRow);
+      const cols = ['Phone', 'emailid', 'zoomads', 'zoomid'];
+
+      const table = document.getElementById('previewTable');
+      let html = '<thead><tr>' + cols.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+      preview.forEach(row => {
+        html += '<tr>' + cols.map(c => `<td title="${row[c]}">${row[c]}</td>`).join('') + '</tr>';
+      });
+      html += '</tbody>';
+      table.innerHTML = html;
+    }
+
+    function convertAndDownload() {
+      if (!parsedRows.length) return;
+
+      const bar = document.getElementById('progressBar');
+      const fill = document.getElementById('progressFill');
+      bar.classList.add('show');
+
+      const cols = ['Phone', 'emailid', 'zoomads', 'zoomid'];
+      const total = parsedRows.length;
+      let csvContent = cols.join(',') + '\n';
+
+      // Process in chunks to show progress
+      let i = 0;
+      function chunk() {
+        const end = Math.min(i + 500, total);
+        for (; i < end; i++) {
+          const row = convertRow(parsedRows[i]);
+          csvContent += cols.map(c => `"${(row[c] || '').replace(/"/g, '""')}"`).join(',') + '\n';
+        }
+        fill.style.width = Math.round((i / total) * 100) + '%';
+        if (i < total) {
+          requestAnimationFrame(chunk);
+        } else {
+          // Done — trigger download
+          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          const date = new Date().toISOString().slice(0,10);
+          link.download = `converted_zoom_${date}.csv`;
+          link.click();
+          URL.revokeObjectURL(url);
+          showAlert('convertAlert', 'success', `✅ Converted ${total} rows → downloaded!`);
+          setTimeout(() => { fill.style.width = '0%'; bar.classList.remove('show'); }, 1500);
+        }
+      }
+      chunk();
+    }
+
+    function showAlert(containerId, type, message) {
+      const el = document.getElementById(containerId);
+      el.innerHTML = `<div class="alert ${type}">${message}</div>`;
+    }
+  </script>
+</body>
+</html>
