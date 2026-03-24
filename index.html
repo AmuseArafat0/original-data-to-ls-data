@@ -264,7 +264,10 @@
     function formatPhone(phone, cc) {
       let d = phone.replace(/[^0-9]/g, "");
       const c = (cc || "91").replace(/[^0-9]/g, "");
-      if (d.startsWith(c) && d.length > c.length + 7) d = d.slice(c.length);
+      // Only strip country code if total digits clearly exceed local number length
+      // e.g. 91XXXXXXXXXX = 12 digits for India, so strip only if length == cc.length + 10
+      if (d.startsWith(c) && d.length === c.length + 10) d = d.slice(c.length);
+      // Keep exactly last 10 digits as local number
       if (d.length > 10) d = d.slice(-10);
       return "'+" + c + "-" + d;
     }
