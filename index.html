@@ -4,6 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LS Data Formatter 🌸</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23fdf6f0'/%3E%3C!-- Petal 1 (top) --%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23f4a7b9' opacity='0.9' transform='rotate(0 32 32)'/%3E%3C!-- Petal 2 (top-right) --%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23e05a7a' opacity='0.85' transform='rotate(72 32 32)'/%3E%3C!-- Petal 3 (bottom-right) --%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23f4a7b9' opacity='0.9' transform='rotate(144 32 32)'/%3E%3C!-- Petal 4 (bottom-left) --%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23e05a7a' opacity='0.85' transform='rotate(216 32 32)'/%3E%3C!-- Petal 5 (top-left) --%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23f4a7b9' opacity='0.9' transform='rotate(288 32 32)'/%3E%3C!-- Center --%3E%3Ccircle cx='32' cy='32' r='7' fill='%23fdecd8' stroke='%23e05a7a' stroke-width='1.5'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%23e8a45a'/%3E%3C/svg%3E"/>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Commit+Mono:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
@@ -150,9 +151,10 @@
       content: "";
       position: absolute; bottom: 2px; left: 0; right: 0; height: 6px;
       background: var(--petal-1); z-index: -1; border-radius: 2px; opacity: 0.7;
+      transform-origin: left;
       animation: accentGrow 1s cubic-bezier(0.16,1,0.3,1) 0.6s both;
     }
-    @keyframes accentGrow { from{transform:scaleX(0);transform-origin:left;} to{transform:scaleX(1);} }
+    @keyframes accentGrow { from{transform:scaleX(0);} to{transform:scaleX(1);} }
 
     .title-jp {
       font-family: "Noto Serif JP", serif;
@@ -498,7 +500,7 @@
   <!-- Bokeh circles -->
   <div class="bokeh" style="width:60px;height:60px;background:var(--sakura);left:10%;animation-duration:14s;animation-delay:0s;"></div>
   <div class="bokeh" style="width:40px;height:40px;background:var(--sky);left:80%;animation-duration:18s;animation-delay:3s;"></div>
-  <div class="bokeh" style="width:80px;height:80px;background:var(--petal-1);left:45%;animation-duration:22s;animation-delay:6s;opacity-base:0.06;"></div>
+  <div class="bokeh" style="width:80px;height:80px;background:var(--petal-1);left:45%;animation-duration:22s;animation-delay:6s;"></div>
   <div class="bokeh" style="width:30px;height:30px;background:var(--leaf);left:60%;animation-duration:16s;animation-delay:9s;"></div>
 
   <!-- Falling sakura petals -->
@@ -513,7 +515,7 @@
   <div class="petal" style="left:48%;animation-duration:9s;animation-delay:6s;font-size:10px;">🌸</div>
   <div class="petal" style="left:75%;animation-duration:20s;animation-delay:2.5s;font-size:12px;">🌸</div>
   <div class="petal" style="left:32%;animation-duration:17s;animation-delay:9s;font-size:10px;">🌸</div>
-  <div class="petal" style="left:15%;animation-duration:11s;animation-delay:3.5s;font-size:20px;opacity-start:0.3;">🌸</div>
+  <div class="petal" style="left:15%;animation-duration:11s;animation-delay:3.5s;font-size:20px;">🌸</div>
 
   <div class="container">
     <header>
@@ -579,7 +581,7 @@
         </div>
       </div>
       <input type="file" accept=".csv" id="csvFile" onchange="handleFile(event)" style="display:none;"/>
-      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('csvFile').click()">
+      <div class="upload-zone" id="uploadZone">
         <span class="upload-emoji">🌸</span>
         <h3>Drop your CSV here, or click to browse</h3>
         <p>Required columns: Phone &middot; emailid &middot; zoomads &middot; zoomid &middot; CountryCode</p>
@@ -739,6 +741,8 @@
       const wrap = document.getElementById("progressWrap");
       const fill = document.getElementById("progressFill");
       const lbl = document.getElementById("progressLabel");
+      const btn = document.getElementById("convertBtn");
+      btn.disabled = true;
       wrap.classList.add("show");
       const cols = ["Phone","emailid","zoomads","zoomid"], total = parsedRows.length;
       let csv = cols.join(",") + "\n", i = 0;
@@ -759,7 +763,7 @@
           a.click(); URL.revokeObjectURL(url);
           showAlert("convertAlert","success","🌸 " + total.toLocaleString() + " records exported — like petals in the wind.");
           lbl.textContent = "🌸 Done!"; launchSakuraBurst();
-          setTimeout(() => { fill.style.width = "0%"; wrap.classList.remove("show"); }, 2200);
+          setTimeout(() => { fill.style.width = "0%"; wrap.classList.remove("show"); btn.disabled = false; }, 2200);
         }
       }
       chunk();
@@ -784,6 +788,7 @@
         }
         el.style.left = (Math.random()*100) + "vw";
         el.style.top = (Math.random()*25 + 5) + "vh";
+        el.style.position = "fixed";
         el.style.animationDelay = (Math.random()*0.8) + "s";
         el.style.animationDuration = (Math.random()*0.8 + 1.2) + "s";
         document.body.appendChild(el);
@@ -793,7 +798,11 @@
 
     function showAlert(id, type, msg) {
       const wrapper = document.getElementById(id);
-      wrapper.innerHTML = '<div class="alert ' + type + '">' + msg + '</div>';
+      const div = document.createElement("div");
+      div.className = "alert " + type;
+      div.textContent = msg;
+      wrapper.innerHTML = "";
+      wrapper.appendChild(div);
     }
   </script>
 </body>
