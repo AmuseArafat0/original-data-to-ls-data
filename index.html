@@ -581,7 +581,7 @@
         </div>
       </div>
       <input type="file" accept=".csv" id="csvFile" onchange="handleFile(event)" style="display:none;"/>
-      <div class="upload-zone" id="uploadZone">
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('csvFile').click()">
         <span class="upload-emoji">🌸</span>
         <h3>Drop your CSV here, or click to browse</h3>
         <p>Required columns: Phone &middot; emailid &middot; zoomads &middot; zoomid &middot; CountryCode</p>
