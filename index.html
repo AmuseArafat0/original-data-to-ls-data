@@ -3,73 +3,33 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>LS Data Formatter 🌸</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23fdf6f0'/%3E%3C!-- Petal 1 (top) --%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23f4a7b9' opacity='0.9' transform='rotate(0 32 32)'/%3E%3C!-- Petal 2 (top-right) --%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23e05a7a' opacity='0.85' transform='rotate(72 32 32)'/%3E%3C!-- Petal 3 (bottom-right) --%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23f4a7b9' opacity='0.9' transform='rotate(144 32 32)'/%3E%3C!-- Petal 4 (bottom-left) --%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23e05a7a' opacity='0.85' transform='rotate(216 32 32)'/%3E%3C!-- Petal 5 (top-left) --%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23f4a7b9' opacity='0.9' transform='rotate(288 32 32)'/%3E%3C!-- Center --%3E%3Ccircle cx='32' cy='32' r='7' fill='%23fdecd8' stroke='%23e05a7a' stroke-width='1.5'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%23e8a45a'/%3E%3C/svg%3E"/>
+  <title>LS Data Formatter 🌸 v2</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23fdf6f0'/%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23f4a7b9' opacity='0.9' transform='rotate(0 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23e05a7a' opacity='0.85' transform='rotate(72 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23f4a7b9' opacity='0.9' transform='rotate(144 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23e05a7a' opacity='0.85' transform='rotate(216 32 32)'/%3E%3Cellipse cx='32' cy='16' rx='7' ry='13' fill='%23f4a7b9' opacity='0.9' transform='rotate(288 32 32)'/%3E%3Ccircle cx='32' cy='32' r='7' fill='%23fdecd8' stroke='%23e05a7a' stroke-width='1.5'/%3E%3Ccircle cx='32' cy='32' r='3' fill='%23e8a45a'/%3E%3C/svg%3E"/>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&family=Commit+Mono:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      --bg: #fdf6f0;
-      --sakura: #f4a7b9;
-      --sakura-deep: #e05a7a;
-      --sakura-light: #fce8ee;
-      --sakura-pale: #fff0f4;
-      --petal-1: #f9c4d1;
-      --petal-2: #f2869e;
-      --leaf: #7db87a;
-      --leaf-light: #c8e6c7;
-      --sky: #b8d4f0;
-      --sky-light: #e8f2fc;
-      --amber: #e8a45a;
-      --amber-light: #fdecd8;
-      --ink: #2c1a2e;
-      --ink-soft: #5a3a5e;
-      --mist: #f7eef5;
-      --card: #fffcfe;
-      --radius: 18px;
-      --shadow: 3px 3px 0px var(--ink);
-      --shadow-lg: 5px 5px 0px var(--ink);
+      --bg: #fdf6f0; --sakura: #f4a7b9; --sakura-deep: #e05a7a;
+      --sakura-light: #fce8ee; --sakura-pale: #fff0f4;
+      --petal-1: #f9c4d1; --petal-2: #f2869e;
+      --leaf: #7db87a; --leaf-light: #c8e6c7;
+      --sky: #b8d4f0; --sky-light: #e8f2fc;
+      --amber: #e8a45a; --amber-light: #fdecd8;
+      --ink: #2c1a2e; --ink-soft: #5a3a5e;
+      --mist: #f7eef5; --card: #fffcfe;
+      --radius: 18px; --shadow: 3px 3px 0px var(--ink); --shadow-lg: 5px 5px 0px var(--ink);
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
     body {
       background: var(--bg);
-      background-image:
-        radial-gradient(ellipse at 15% 10%, rgba(244,167,185,0.25) 0%, transparent 45%),
+      background-image: radial-gradient(ellipse at 15% 10%, rgba(244,167,185,0.25) 0%, transparent 45%),
         radial-gradient(ellipse at 85% 80%, rgba(184,212,240,0.20) 0%, transparent 45%),
         radial-gradient(ellipse at 50% 50%, rgba(253,246,240,0.5) 0%, transparent 70%),
         radial-gradient(ellipse at 5% 80%, rgba(125,184,122,0.10) 0%, transparent 30%);
       font-family: "Zen Kaku Gothic New", sans-serif;
-      min-height: 100vh;
-      padding: 40px 20px 80px;
-      position: relative;
-      overflow-x: hidden;
+      min-height: 100vh; padding: 40px 20px 80px; position: relative; overflow-x: hidden;
     }
-
-    /* Paper texture overlay */
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background-image:
-        radial-gradient(circle, rgba(44,26,46,0.035) 1px, transparent 1px);
-      background-size: 24px 24px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Ink brush stroke decoration */
-    body::after {
-      content: "";
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, transparent 0%, var(--sakura-deep) 20%, var(--petal-1) 50%, var(--sakura-deep) 80%, transparent 100%);
-      z-index: 100;
-      opacity: 0.7;
-    }
-
-    /* ── Background ambient blobs ── */
+    body::before { content: ""; position: fixed; inset: 0; background-image: radial-gradient(circle, rgba(44,26,46,0.035) 1px, transparent 1px); background-size: 24px 24px; pointer-events: none; z-index: 0; }
+    body::after { content: ""; position: fixed; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, transparent 0%, var(--sakura-deep) 20%, var(--petal-1) 50%, var(--sakura-deep) 80%, transparent 100%); z-index: 100; opacity: 0.7; }
     .blob { position: fixed; border-radius: 50%; filter: blur(70px); opacity: 0.18; pointer-events: none; z-index: 0; }
     .blob-1 { width: 380px; height: 380px; background: var(--sakura); top: -120px; right: -100px; animation: floatA 11s ease-in-out infinite; }
     .blob-2 { width: 260px; height: 260px; background: var(--sky); bottom: 60px; left: -80px; animation: floatB 13s ease-in-out infinite; }
@@ -77,217 +37,57 @@
     .blob-4 { width: 160px; height: 160px; background: var(--leaf); top: 20%; left: 2%; animation: floatB 12s ease-in-out infinite 5s; }
     @keyframes floatA { 0%,100%{transform:translateY(0) scale(1);} 50%{transform:translateY(-28px) scale(1.05);} }
     @keyframes floatB { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-18px) rotate(5deg);} }
-
-    /* ── Sakura petal particles ── */
-    .petal {
-      position: fixed;
-      pointer-events: none;
-      z-index: 0;
-      font-size: 16px;
-      opacity: 0;
-      animation: petalFall linear infinite;
-      user-select: none;
-      filter: drop-shadow(0 1px 2px rgba(224,90,122,0.3));
-    }
-    @keyframes petalFall {
-      0%   { transform: translateY(-40px) rotate(0deg) translateX(0px); opacity: 0; }
-      10%  { opacity: 0.7; }
-      50%  { transform: translateY(50vh) rotate(180deg) translateX(30px); opacity: 0.5; }
-      90%  { opacity: 0.3; }
-      100% { transform: translateY(110vh) rotate(360deg) translateX(-20px); opacity: 0; }
-    }
-
-    /* Floating bokeh circles */
-    .bokeh {
-      position: fixed;
-      pointer-events: none;
-      z-index: 0;
-      border-radius: 50%;
-      opacity: 0;
-      animation: bokehFloat linear infinite;
-    }
-    @keyframes bokehFloat {
-      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
-      20%  { opacity: 0.12; }
-      80%  { opacity: 0.08; }
-      100% { transform: translateY(-20vh) scale(1); opacity: 0; }
-    }
-
+    .petal { position: fixed; pointer-events: none; z-index: 0; font-size: 16px; opacity: 0; animation: petalFall linear infinite; user-select: none; }
+    @keyframes petalFall { 0%{transform:translateY(-40px) rotate(0deg) translateX(0px);opacity:0;} 10%{opacity:0.7;} 50%{transform:translateY(50vh) rotate(180deg) translateX(30px);opacity:0.5;} 90%{opacity:0.3;} 100%{transform:translateY(110vh) rotate(360deg) translateX(-20px);opacity:0;} }
+    .bokeh { position: fixed; pointer-events: none; z-index: 0; border-radius: 50%; opacity: 0; animation: bokehFloat linear infinite; }
+    @keyframes bokehFloat { 0%{transform:translateY(100vh) scale(0);opacity:0;} 20%{opacity:0.12;} 80%{opacity:0.08;} 100%{transform:translateY(-20vh) scale(1);opacity:0;} }
     .container { position: relative; z-index: 1; width: 100%; max-width: 760px; margin: 0 auto; }
-
-    /* ── Header ── */
     header { margin-bottom: 44px; animation: fadeUp 0.9s cubic-bezier(0.16,1,0.3,1) both; }
     @keyframes fadeUp { from{opacity:0;transform:translateY(36px);} to{opacity:1;transform:translateY(0);} }
-
-    .badge {
-      display: inline-flex; align-items: center; gap: 7px;
-      background: var(--sakura-light); color: var(--sakura-deep);
-      border: 2px solid var(--ink); border-radius: 100px;
-      padding: 5px 16px; font-size: 11px; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      box-shadow: 2px 2px 0 var(--ink); margin-bottom: 22px;
-      animation: badgePop 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.3s both;
-    }
+    .badge { display: inline-flex; align-items: center; gap: 7px; background: var(--sakura-light); color: var(--sakura-deep); border: 2px solid var(--ink); border-radius: 100px; padding: 5px 16px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; box-shadow: 2px 2px 0 var(--ink); margin-bottom: 22px; animation: badgePop 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.3s both; }
     @keyframes badgePop { from{transform:scale(0.4);opacity:0;} to{transform:scale(1);opacity:1;} }
-
-    .badge-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--sakura-deep);
-      animation: dotPulse 2s ease-in-out infinite;
-    }
+    .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sakura-deep); animation: dotPulse 2s ease-in-out infinite; }
     @keyframes dotPulse { 0%,100%{transform:scale(1);opacity:1;} 50%{transform:scale(1.5);opacity:0.6;} }
-
-    h1 {
-      font-family: "Noto Serif JP", serif;
-      font-size: clamp(36px, 7.5vw, 64px);
-      font-weight: 700; line-height: 1.05;
-      color: var(--ink); letter-spacing: -1px;
-    }
-    h1 .accent {
-      color: var(--sakura-deep);
-      position: relative; display: inline-block;
-    }
-    h1 .accent::after {
-      content: "";
-      position: absolute; bottom: 2px; left: 0; right: 0; height: 6px;
-      background: var(--petal-1); z-index: -1; border-radius: 2px; opacity: 0.7;
-      transform-origin: left;
-      animation: accentGrow 1s cubic-bezier(0.16,1,0.3,1) 0.6s both;
-    }
+    h1 { font-family: "Noto Serif JP", serif; font-size: clamp(36px,7.5vw,64px); font-weight: 700; line-height: 1.05; color: var(--ink); letter-spacing: -1px; }
+    h1 .accent { color: var(--sakura-deep); position: relative; display: inline-block; }
+    h1 .accent::after { content: ""; position: absolute; bottom: 2px; left: 0; right: 0; height: 6px; background: var(--petal-1); z-index: -1; border-radius: 2px; opacity: 0.7; transform-origin: left; animation: accentGrow 1s cubic-bezier(0.16,1,0.3,1) 0.6s both; }
     @keyframes accentGrow { from{transform:scaleX(0);} to{transform:scaleX(1);} }
-
-    .title-jp {
-      font-family: "Noto Serif JP", serif;
-      font-size: 12px; font-weight: 300; color: var(--ink-soft);
-      letter-spacing: 3px; margin-top: 6px; opacity: 0.65;
-      animation: fadeUp 0.8s ease 0.8s both;
-    }
-
-    .subtitle {
-      margin-top: 14px; font-size: 15px; color: var(--ink-soft);
-      font-weight: 400; max-width: 480px; line-height: 1.7;
-      animation: fadeUp 0.8s ease 0.4s both;
-    }
-
-    /* ── Mood strip ── */
-    .mood-strip {
-      display: flex; gap: 10px; margin: 18px 0 6px; flex-wrap: wrap;
-      animation: fadeUp 0.7s ease 1s both;
-    }
-    .mood-pill {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 5px 14px; border-radius: 100px;
-      font-size: 11px; font-weight: 700; border: 2px solid var(--ink);
-      box-shadow: 2px 2px 0 var(--ink); letter-spacing: 0.5px;
-      animation: pillPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
-    }
+    .title-jp { font-family: "Noto Serif JP", serif; font-size: 12px; font-weight: 300; color: var(--ink-soft); letter-spacing: 3px; margin-top: 6px; opacity: 0.65; animation: fadeUp 0.8s ease 0.8s both; }
+    .subtitle { margin-top: 14px; font-size: 15px; color: var(--ink-soft); font-weight: 400; max-width: 480px; line-height: 1.7; animation: fadeUp 0.8s ease 0.4s both; }
+    .mood-strip { display: flex; gap: 10px; margin: 18px 0 6px; flex-wrap: wrap; animation: fadeUp 0.7s ease 1s both; }
+    .mood-pill { display: inline-flex; align-items: center; gap: 6px; padding: 5px 14px; border-radius: 100px; font-size: 11px; font-weight: 700; border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); letter-spacing: 0.5px; animation: pillPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both; }
     .mood-pill:nth-child(1){background:var(--sakura-light);color:var(--sakura-deep);animation-delay:1.1s;}
     .mood-pill:nth-child(2){background:var(--sky-light);color:#3a6fa8;animation-delay:1.2s;}
     .mood-pill:nth-child(3){background:var(--leaf-light);color:#2d6b2a;animation-delay:1.3s;}
     .mood-pill:nth-child(4){background:var(--amber-light);color:#8a5220;animation-delay:1.4s;}
     @keyframes pillPop { from{transform:scale(0.5) translateY(10px);opacity:0;} to{transform:scale(1) translateY(0);opacity:1;} }
-
-    /* ── Decorative divider ── */
-    .divider {
-      display: flex; align-items: center; gap: 12px;
-      margin: 8px 0 28px;
-      animation: fadeUp 0.6s ease 1.5s both;
-    }
+    .divider { display: flex; align-items: center; gap: 12px; margin: 8px 0 28px; animation: fadeUp 0.6s ease 1.5s both; }
     .divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--sakura), transparent); }
     .divider-petal { font-size: 14px; animation: petalSpin 8s linear infinite; }
     @keyframes petalSpin { 0%{transform:rotate(0deg);} 100%{transform:rotate(360deg);} }
-
-    /* ── Cards ── */
-    .card {
-      background: var(--card);
-      border: 2px solid var(--ink);
-      border-radius: var(--radius);
-      padding: 28px;
-      margin-bottom: 18px;
-      box-shadow: var(--shadow-lg);
-      position: relative;
-      overflow: hidden;
-      animation: cardSlide 0.8s cubic-bezier(0.16,1,0.3,1) both;
-      transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s;
-    }
-    .card::after {
-      content: "";
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at top right, rgba(244,167,185,0.06) 0%, transparent 60%);
-      pointer-events: none;
-    }
+    .card { background: var(--card); border: 2px solid var(--ink); border-radius: var(--radius); padding: 28px; margin-bottom: 18px; box-shadow: var(--shadow-lg); position: relative; overflow: hidden; animation: cardSlide 0.8s cubic-bezier(0.16,1,0.3,1) both; transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), box-shadow 0.25s; }
+    .card::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at top right, rgba(244,167,185,0.06) 0%, transparent 60%); pointer-events: none; }
     .card:hover { transform: translate(-2px,-3px); box-shadow: 7px 8px 0px var(--ink); }
-    .card:nth-child(1){animation-delay:0.15s;} .card:nth-child(2){animation-delay:0.25s;}
-    .card:nth-child(3){animation-delay:0.35s;} .card:nth-child(4){animation-delay:0.45s;}
+    .card:nth-child(1){animation-delay:0.15s;} .card:nth-child(2){animation-delay:0.25s;} .card:nth-child(3){animation-delay:0.35s;} .card:nth-child(4){animation-delay:0.45s;}
     @keyframes cardSlide { from{opacity:0;transform:translateY(32px);} to{opacity:1;transform:translateY(0);} }
-
-    /* Left accent stripe */
-    .card::before {
-      content: ""; position: absolute; top: 0; left: 0; bottom: 0;
-      width: 4px; border-radius: var(--radius) 0 0 var(--radius);
-    }
+    .card::before { content: ""; position: absolute; top: 0; left: 0; bottom: 0; width: 4px; border-radius: var(--radius) 0 0 var(--radius); }
     .card-1::before { background: linear-gradient(180deg, var(--sakura-deep), var(--petal-1)); }
     .card-2::before { background: linear-gradient(180deg, var(--sky), #7aabda); }
     .card-3::before { background: linear-gradient(180deg, var(--leaf), #a8d4a6); }
     .card-4::before { background: linear-gradient(180deg, var(--amber), var(--petal-2)); }
-
-    /* Corner decorative element */
-    .card-corner {
-      position: absolute; top: 10px; right: 14px;
-      font-size: 30px; opacity: 0.13;
-      animation: cornerFloat 7s ease-in-out infinite;
-      filter: drop-shadow(0 2px 4px rgba(224,90,122,0.4));
-    }
+    .card-corner { position: absolute; top: 10px; right: 14px; font-size: 30px; opacity: 0.13; animation: cornerFloat 7s ease-in-out infinite; }
     @keyframes cornerFloat { 0%,100%{transform:rotate(-5deg) scale(1) translateY(0);} 50%{transform:rotate(5deg) scale(1.1) translateY(-4px);} }
-
     .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
-    .card-icon {
-      width: 46px; height: 46px; border-radius: 13px; border: 2px solid var(--ink);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; flex-shrink: 0;
-      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
-      box-shadow: 2px 2px 0 var(--ink);
-    }
+    .card-icon { width: 46px; height: 46px; border-radius: 13px; border: 2px solid var(--ink); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 2px 2px 0 var(--ink); }
     .card-icon:hover { transform: scale(1.12) rotate(-6deg); }
-    .card-1 .card-icon{background:var(--sakura-light);}
-    .card-2 .card-icon{background:var(--sky-light);}
-    .card-3 .card-icon{background:var(--leaf-light);}
-    .card-4 .card-icon{background:var(--amber-light);}
-
+    .card-1 .card-icon{background:var(--sakura-light);} .card-2 .card-icon{background:var(--sky-light);} .card-3 .card-icon{background:var(--leaf-light);} .card-4 .card-icon{background:var(--amber-light);}
     .card-title { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -0.2px; font-family: "Noto Serif JP", serif; }
     .card-subtitle { font-size: 11px; color: #a07a9e; font-weight: 500; margin-top: 2px; letter-spacing: 0.3px; }
-
     label { display: block; font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 7px; letter-spacing: 0.5px; }
-
-    input[type="text"] {
-      width: 100%;
-      background: var(--mist); border: 2px solid var(--ink);
-      border-radius: 11px; padding: 11px 14px;
-      color: var(--ink); font-family: "Commit Mono", monospace;
-      font-size: 13px; outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-      box-shadow: 2px 2px 0 var(--ink);
-    }
-    input[type="text"]:focus {
-      border-color: var(--sakura-deep);
-      box-shadow: 3px 3px 0 var(--sakura-deep);
-      transform: translate(-1px,-1px);
-    }
-
-    /* ── Auto banner ── */
-    .auto-banner {
-      display: flex; align-items: flex-start; gap: 11px;
-      background: linear-gradient(135deg, var(--sakura-pale), var(--mist));
-      border: 2px solid var(--sakura);
-      border-radius: 13px; padding: 14px 16px; margin-top: 16px;
-      animation: bannerBreath 4s ease-in-out infinite;
-      position: relative; overflow: hidden;
-    }
-    .auto-banner::before {
-      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--sakura-deep), var(--petal-1), var(--sakura-deep));
-      opacity: 0.6;
-    }
+    input[type="text"] { width: 100%; background: var(--mist); border: 2px solid var(--ink); border-radius: 11px; padding: 11px 14px; color: var(--ink); font-family: "Commit Mono", monospace; font-size: 13px; outline: none; transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s; box-shadow: 2px 2px 0 var(--ink); }
+    input[type="text"]:focus { border-color: var(--sakura-deep); box-shadow: 3px 3px 0 var(--sakura-deep); transform: translate(-1px,-1px); }
+    .auto-banner { display: flex; align-items: flex-start; gap: 11px; background: linear-gradient(135deg, var(--sakura-pale), var(--mist)); border: 2px solid var(--sakura); border-radius: 13px; padding: 14px 16px; margin-top: 16px; animation: bannerBreath 4s ease-in-out infinite; position: relative; overflow: hidden; }
+    .auto-banner::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--sakura-deep), var(--petal-1), var(--sakura-deep)); opacity: 0.6; }
     @keyframes bannerBreath { 0%,100%{box-shadow:0 0 0 0 rgba(244,167,185,0.25);} 50%{box-shadow:0 0 0 8px rgba(244,167,185,0);} }
     .auto-banner .icon { font-size: 20px; flex-shrink: 0; animation: iconWobble 3s ease-in-out infinite; }
     @keyframes iconWobble { 0%,100%{transform:rotate(0deg);} 25%{transform:rotate(-8deg);} 75%{transform:rotate(8deg);} }
@@ -295,106 +95,76 @@
     .auto-banner p { font-size: 11px; color: var(--ink-soft); margin-top: 5px; line-height: 1.8; font-family: "Commit Mono", monospace; }
 
     /* ── Upload zone ── */
-    .upload-zone {
-      border: 2px dashed var(--sakura); border-radius: 16px;
-      padding: 48px 24px; text-align: center; cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
-      position: relative; background: var(--sakura-pale);
-    }
-    .upload-zone:hover, .upload-zone.drag-over {
-      border-color: var(--sakura-deep); background: var(--sakura-light);
-      transform: translateY(-4px) scale(1.01);
-      box-shadow: 0 14px 32px rgba(224,90,122,0.18);
-      border-style: solid;
-    }
-    .upload-zone input[type="file"] {
-      position: absolute; inset: 0; opacity: 0; cursor: pointer;
-      width: 100%; height: 100%; z-index: 10;
-    }
-    .upload-emoji {
-      font-size: 52px; display: block; margin-bottom: 16px;
-      animation: petalBounce 2.8s ease-in-out infinite;
-      filter: drop-shadow(0 4px 8px rgba(224,90,122,0.3));
-    }
-    @keyframes petalBounce {
-      0%,100%{transform:translateY(0) rotate(0deg) scale(1);}
-      30%{transform:translateY(-12px) rotate(-8deg) scale(1.05);}
-      60%{transform:translateY(-5px) rotate(6deg) scale(1.02);}
-    }
+    .upload-zone { border: 2px dashed var(--sakura); border-radius: 16px; padding: 48px 24px; text-align: center; cursor: pointer; transition: all 0.3s cubic-bezier(0.16,1,0.3,1); position: relative; background: var(--sakura-pale); }
+    .upload-zone:hover, .upload-zone.drag-over { border-color: var(--sakura-deep); background: var(--sakura-light); transform: translateY(-4px) scale(1.01); box-shadow: 0 14px 32px rgba(224,90,122,0.18); border-style: solid; }
+    .upload-zone input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; z-index: 10; }
+    .upload-emoji { font-size: 52px; display: block; margin-bottom: 16px; animation: petalBounce 2.8s ease-in-out infinite; filter: drop-shadow(0 4px 8px rgba(224,90,122,0.3)); }
+    @keyframes petalBounce { 0%,100%{transform:translateY(0) rotate(0deg) scale(1);} 30%{transform:translateY(-12px) rotate(-8deg) scale(1.05);} 60%{transform:translateY(-5px) rotate(6deg) scale(1.02);} }
     .upload-zone h3 { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 5px; font-family: "Noto Serif JP", serif; }
     .upload-zone p { font-size: 12px; color: #a07a9e; font-family: "Commit Mono", monospace; }
-    .file-name {
-      margin-top: 14px; display: inline-flex; align-items: center; gap: 7px;
-      background: var(--ink); color: #fff; padding: 6px 16px;
-      border-radius: 100px; font-size: 12px; font-weight: 700;
-      animation: fileNamePop 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
-      box-shadow: 0 4px 12px rgba(44,26,46,0.25);
-    }
-    @keyframes fileNamePop { from{transform:scale(0.4);opacity:0;} to{transform:scale(1);opacity:1;} }
+
+    /* ── File list ── */
+    .file-list { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+    .file-item { display: flex; align-items: center; gap: 10px; background: var(--ink); color: #fff; padding: 9px 14px; border-radius: 12px; font-size: 12px; font-weight: 600; animation: fileSlide 0.4s cubic-bezier(0.34,1.56,0.64,1) both; box-shadow: 0 4px 12px rgba(44,26,46,0.25); font-family: "Commit Mono", monospace; }
+    .file-item.ok { background: #2c5a2e; }
+    .file-item.err { background: #8a2020; }
+    @keyframes fileSlide { from{transform:translateX(-16px) scale(0.93);opacity:0;} to{transform:translateX(0) scale(1);opacity:1;} }
+    .fi-icon { font-size: 15px; flex-shrink: 0; }
+    .fi-info { flex: 1; min-width: 0; }
+    .fi-name { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .fi-meta { font-size: 10px; color: #a8d8a8; margin-top: 2px; display: block; }
+    .fi-meta.err-meta { color: #f9a8a8; }
+    .fi-remove { flex-shrink: 0; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 6px; padding: 3px 9px; cursor: pointer; font-size: 11px; color: #f9c4d1; transition: background 0.15s; font-family: "Zen Kaku Gothic New", sans-serif; }
+    .fi-remove:hover { background: rgba(224,90,122,0.5); color: #fff; }
+
+    .add-more-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--sakura-light); color: var(--sakura-deep); border: 2px solid var(--ink); border-radius: 10px; padding: 8px 18px; font-size: 12px; font-weight: 700; cursor: pointer; margin-top: 12px; box-shadow: 2px 2px 0 var(--ink); transition: transform 0.15s, box-shadow 0.15s; font-family: "Zen Kaku Gothic New", sans-serif; }
+    .add-more-btn:hover { transform: translate(-2px,-2px); box-shadow: 4px 4px 0 var(--ink); }
+
+    /* ── Merge summary ── */
+    .merge-summary { margin-top: 18px; background: linear-gradient(135deg, var(--leaf-light), var(--sky-light)); border: 2px solid var(--ink); border-radius: 14px; padding: 16px 18px; display: none; animation: cardSlide 0.5s cubic-bezier(0.16,1,0.3,1); }
+    .merge-summary.show { display: block; }
+    .merge-summary-title { font-family: "Noto Serif JP", serif; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 10px; display: flex; align-items: center; gap: 7px; }
+    .merge-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .mchip { display: inline-flex; align-items: center; gap: 5px; border-radius: 100px; padding: 5px 13px; font-size: 11px; font-weight: 700; font-family: "Commit Mono", monospace; animation: pillPop 0.4s cubic-bezier(0.34,1.56,0.64,1) both; }
+    .mchip-files { background: var(--sakura-deep); color: #fff; }
+    .mchip-rows { background: #2d6b2a; color: #fff; }
+    .mchip-dupe { background: #8a5220; color: #fff; }
+    .mchip-split { background: #3a6fa8; color: #fff; }
+    .out-files { display: flex; flex-direction: column; gap: 6px; }
+    .out-file-row { display: flex; align-items: center; gap: 9px; background: rgba(255,255,255,0.65); border: 1.5px solid var(--ink); border-radius: 10px; padding: 9px 13px; font-family: "Commit Mono", monospace; font-size: 11px; color: var(--ink); font-weight: 600; }
+    .out-badge { background: var(--ink); color: var(--petal-1); border-radius: 6px; padding: 2px 8px; font-size: 10px; font-weight: 700; flex-shrink: 0; }
+    .out-name { flex: 1; }
+    .out-rows-count { color: var(--sakura-deep); font-size: 10px; }
 
     /* ── Alerts ── */
     .alert { border-radius: 12px; padding: 12px 16px; font-size: 12px; font-weight: 600; margin-top: 14px; display: none; border: 2px solid transparent; font-family: "Commit Mono", monospace; }
-    .alert.error  { background: #fff0f0; border-color: #e05a5a; color: #b92222; display: block; animation: shake 0.45s ease; }
-    .alert.success{ background: var(--sakura-light); border-color: var(--sakura-deep); color: #8a1a3a; display: block; animation: successBounce 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+    .alert.error { background: #fff0f0; border-color: #e05a5a; color: #b92222; display: block; animation: shake 0.45s ease; }
+    .alert.success { background: var(--sakura-light); border-color: var(--sakura-deep); color: #8a1a3a; display: block; animation: successBounce 0.5s cubic-bezier(0.34,1.56,0.64,1); }
     @keyframes shake { 0%,100%{transform:translateX(0);} 20%,60%{transform:translateX(-7px);} 40%,80%{transform:translateX(7px);} }
     @keyframes successBounce { from{transform:scale(0.85);opacity:0;} to{transform:scale(1);opacity:1;} }
 
     /* ── Stats ── */
     .stats { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 16px; }
-    .stat {
-      flex: 1; min-width: 100px; background: var(--mist);
-      border: 2px solid var(--ink); border-radius: 14px;
-      padding: 14px 16px; box-shadow: 3px 3px 0 var(--ink);
-      text-align: center; transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1);
-    }
+    .stat { flex: 1; min-width: 90px; background: var(--mist); border: 2px solid var(--ink); border-radius: 14px; padding: 14px 16px; box-shadow: 3px 3px 0 var(--ink); text-align: center; transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1); }
     .stat:hover { transform: translate(-2px,-3px); box-shadow: 5px 6px 0 var(--ink); }
-    .stat strong { display: block; font-size: 28px; font-weight: 900; color: var(--ink); line-height: 1; font-family: "Noto Serif JP", serif; }
+    .stat strong { display: block; font-size: 24px; font-weight: 900; color: var(--ink); line-height: 1; font-family: "Noto Serif JP", serif; }
     .stat span { font-size: 10px; font-weight: 700; color: #a07a9e; text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; display: block; }
-    .stat:nth-child(1) strong{color:var(--sakura-deep);}
-    .stat:nth-child(2) strong{color:#3a6fa8;}
-    .stat:nth-child(3) strong{color:#2d6b2a;}
+    .stat:nth-child(1) strong{color:var(--sakura-deep);} .stat:nth-child(2) strong{color:#3a6fa8;} .stat:nth-child(3) strong{color:#2d6b2a;} .stat:nth-child(4) strong{color:#8a5220;}
 
     /* ── Table ── */
-    .table-wrap {
-      overflow-x: auto; border: 2px solid var(--ink);
-      border-radius: 14px; margin-top: 16px; box-shadow: 3px 3px 0 var(--ink);
-    }
+    .table-wrap { overflow-x: auto; border: 2px solid var(--ink); border-radius: 14px; margin-top: 16px; box-shadow: 3px 3px 0 var(--ink); }
     table { width: 100%; border-collapse: collapse; font-family: "Commit Mono", monospace; font-size: 12px; }
     th { background: var(--ink); color: var(--petal-1); padding: 10px 14px; text-align: left; white-space: nowrap; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
     td { padding: 10px 14px; border-top: 1.5px solid var(--sakura-light); color: var(--ink); white-space: nowrap; max-width: 200px; overflow: hidden; text-overflow: ellipsis; font-weight: 500; transition: background 0.15s; }
     tr:hover td { background: var(--sakura-pale); }
     tbody tr { animation: rowFadeIn 0.4s ease both; }
-    tbody tr:nth-child(1){animation-delay:0.05s;} tbody tr:nth-child(2){animation-delay:0.1s;}
-    tbody tr:nth-child(3){animation-delay:0.15s;} tbody tr:nth-child(4){animation-delay:0.2s;}
-    tbody tr:nth-child(5){animation-delay:0.25s;}
+    tbody tr:nth-child(1){animation-delay:0.05s;} tbody tr:nth-child(2){animation-delay:0.1s;} tbody tr:nth-child(3){animation-delay:0.15s;} tbody tr:nth-child(4){animation-delay:0.2s;} tbody tr:nth-child(5){animation-delay:0.25s;}
     @keyframes rowFadeIn { from{opacity:0;transform:translateX(-10px);} to{opacity:1;transform:translateX(0);} }
 
     /* ── Button ── */
-    .btn {
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      background: linear-gradient(135deg, var(--sakura-deep) 0%, var(--petal-2) 60%, var(--amber) 100%);
-      color: #fff; border: 2.5px solid var(--ink);
-      border-radius: 14px; padding: 16px 28px;
-      font-family: "Noto Serif JP", serif;
-      font-size: 15px; font-weight: 700; cursor: pointer;
-      box-shadow: var(--shadow-lg); transition: transform 0.14s, box-shadow 0.14s;
-      width: 100%; position: relative; overflow: hidden;
-      letter-spacing: 0.3px;
-    }
-    .btn::before {
-      content: "";
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
-      pointer-events: none;
-    }
-    .btn::after {
-      content: "";
-      position: absolute; top: -50%; left: -60%;
-      width: 40%; height: 200%;
-      background: rgba(255,255,255,0.25);
-      transform: skewX(-20deg) translateX(-100%);
-      transition: transform 0.5s ease;
-    }
+    .btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, var(--sakura-deep) 0%, var(--petal-2) 60%, var(--amber) 100%); color: #fff; border: 2.5px solid var(--ink); border-radius: 14px; padding: 16px 28px; font-family: "Noto Serif JP", serif; font-size: 15px; font-weight: 700; cursor: pointer; box-shadow: var(--shadow-lg); transition: transform 0.14s, box-shadow 0.14s; width: 100%; position: relative; overflow: hidden; letter-spacing: 0.3px; }
+    .btn::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%); pointer-events: none; }
+    .btn::after { content: ""; position: absolute; top: -50%; left: -60%; width: 40%; height: 200%; background: rgba(255,255,255,0.25); transform: skewX(-20deg) translateX(-100%); transition: transform 0.5s ease; }
     .btn:hover:not(:disabled)::after { transform: skewX(-20deg) translateX(500%); }
     .btn:hover:not(:disabled) { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--ink); }
     .btn:active:not(:disabled) { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--ink); }
@@ -407,103 +177,35 @@
     .progress-wrap.show { display: block; animation: fadeUp 0.3s ease; }
     .progress-label { font-size: 11px; font-weight: 700; color: var(--ink-soft); margin-bottom: 6px; font-family: "Commit Mono", monospace; letter-spacing: 0.5px; }
     .progress-bar { height: 12px; background: var(--sakura-pale); border: 2px solid var(--ink); border-radius: 100px; overflow: hidden; }
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--sakura-deep), var(--petal-1), var(--sakura-deep));
-      background-size: 200% 100%;
-      border-radius: 100px; transition: width 0.3s;
-      width: 0%; animation: shimmer 1.8s linear infinite;
-    }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--sakura-deep), var(--petal-1), var(--sakura-deep)); background-size: 200% 100%; border-radius: 100px; transition: width 0.3s; width: 0%; animation: shimmer 1.8s linear infinite; }
     @keyframes shimmer { 0%{background-position:0% 50%;} 100%{background-position:200% 50%;} }
 
     /* ── Help ── */
-    .help-toggle {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 11px; font-weight: 700; color: var(--sakura-deep);
-      cursor: pointer; margin-top: 14px;
-      text-decoration: underline; text-underline-offset: 3px;
-      transition: color 0.15s; letter-spacing: 0.5px;
-    }
+    .help-toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; color: var(--sakura-deep); cursor: pointer; margin-top: 14px; text-decoration: underline; text-underline-offset: 3px; transition: color 0.15s; letter-spacing: 0.5px; }
     .help-toggle:hover { color: var(--ink); }
-    .help-box {
-      background: linear-gradient(135deg, var(--mist), var(--sakura-pale));
-      border: 2px solid var(--sakura);
-      border-radius: 12px; padding: 14px 16px; margin-top: 10px;
-      font-family: "Commit Mono", monospace; font-size: 11.5px; color: var(--ink-soft);
-      line-height: 1.9; display: none;
-    }
+    .help-box { background: linear-gradient(135deg, var(--mist), var(--sakura-pale)); border: 2px solid var(--sakura); border-radius: 12px; padding: 14px 16px; margin-top: 10px; font-family: "Commit Mono", monospace; font-size: 11.5px; color: var(--ink-soft); line-height: 1.9; display: none; }
     .help-box.open { display: block; animation: helpReveal 0.45s cubic-bezier(0.16,1,0.3,1); }
     @keyframes helpReveal { from{opacity:0;transform:translateY(-10px);} to{opacity:1;transform:translateY(0);} }
 
     /* ── Footer ── */
-    footer {
-      text-align: center; margin-top: 52px;
-      font-size: 11px; font-weight: 700; color: #c0a8bc;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      font-family: "Commit Mono", monospace;
-    }
+    footer { text-align: center; margin-top: 52px; font-size: 11px; font-weight: 700; color: #c0a8bc; letter-spacing: 1.5px; text-transform: uppercase; font-family: "Commit Mono", monospace; }
     .footer-petals { font-size: 18px; display: inline-flex; gap: 10px; margin-bottom: 8px; }
     .footer-petals span { display: inline-block; animation: footerPetalWave ease-in-out infinite; }
-    .footer-petals span:nth-child(1){animation-duration:2.2s;animation-delay:0s;}
-    .footer-petals span:nth-child(2){animation-duration:2.5s;animation-delay:0.25s;}
-    .footer-petals span:nth-child(3){animation-duration:2.1s;animation-delay:0.5s;}
-    .footer-petals span:nth-child(4){animation-duration:2.6s;animation-delay:0.75s;}
-    .footer-petals span:nth-child(5){animation-duration:2.3s;animation-delay:1s;}
+    .footer-petals span:nth-child(1){animation-duration:2.2s;} .footer-petals span:nth-child(2){animation-duration:2.5s;animation-delay:0.25s;} .footer-petals span:nth-child(3){animation-duration:2.1s;animation-delay:0.5s;} .footer-petals span:nth-child(4){animation-duration:2.6s;animation-delay:0.75s;} .footer-petals span:nth-child(5){animation-duration:2.3s;animation-delay:1s;}
     @keyframes footerPetalWave { 0%,100%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-6px) rotate(10deg);} }
-
-    /* ── Confetti / Sakura burst ── */
-    .confetti-piece {
-      position: fixed;
-      animation: petalConfetti 1.6s ease-out forwards;
-      pointer-events: none; z-index: 9999;
-    }
-    @keyframes petalConfetti {
-      0%  {transform:translateY(-20px) rotate(0deg) scale(1); opacity:1;}
-      100%{transform:translateY(500px) rotate(720deg) scale(0.3); opacity:0;}
-    }
-
-    /* ── Ripple ── */
-    .ripple {
-      position: absolute; border-radius: 50%;
-      background: rgba(244,167,185,0.25);
-      transform: scale(0); animation: rippleOut 0.7s ease-out forwards;
-      pointer-events: none;
-    }
-    @keyframes rippleOut { to{transform:scale(4);opacity:0;} }
-
-    /* ── Scene dividers (ink brush style) ── */
-    .scene-divider {
-      text-align: center;
-      margin: 6px 0 20px;
-      font-size: 11px;
-      color: #c0a0bc;
-      letter-spacing: 4px;
-      font-family: "Commit Mono", monospace;
-      opacity: 0.6;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: var(--sakura-pale); }
-    ::-webkit-scrollbar-thumb { background: var(--sakura); border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--sakura-deep); }
+    .confetti-piece { position: fixed; animation: petalConfetti 1.6s ease-out forwards; pointer-events: none; z-index: 9999; }
+    @keyframes petalConfetti { 0%{transform:translateY(-20px) rotate(0deg) scale(1);opacity:1;} 100%{transform:translateY(500px) rotate(720deg) scale(0.3);opacity:0;} }
+    .scene-divider { text-align: center; margin: 6px 0 20px; font-size: 11px; color: #c0a0bc; letter-spacing: 4px; font-family: "Commit Mono", monospace; opacity: 0.6; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; } ::-webkit-scrollbar-track { background: var(--sakura-pale); } ::-webkit-scrollbar-thumb { background: var(--sakura); border-radius: 3px; } ::-webkit-scrollbar-thumb:hover { background: var(--sakura-deep); }
   </style>
 </head>
 <body>
 
-  <!-- Ambient blobs -->
-  <div class="blob blob-1"></div>
-  <div class="blob blob-2"></div>
-  <div class="blob blob-3"></div>
-  <div class="blob blob-4"></div>
-
-  <!-- Bokeh circles -->
+  <div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div><div class="blob blob-4"></div>
   <div class="bokeh" style="width:60px;height:60px;background:var(--sakura);left:10%;animation-duration:14s;animation-delay:0s;"></div>
   <div class="bokeh" style="width:40px;height:40px;background:var(--sky);left:80%;animation-duration:18s;animation-delay:3s;"></div>
   <div class="bokeh" style="width:80px;height:80px;background:var(--petal-1);left:45%;animation-duration:22s;animation-delay:6s;"></div>
   <div class="bokeh" style="width:30px;height:30px;background:var(--leaf);left:60%;animation-duration:16s;animation-delay:9s;"></div>
-
-  <!-- Falling sakura petals -->
   <div class="petal" style="left:8%;animation-duration:12s;animation-delay:0s;">🌸</div>
   <div class="petal" style="left:22%;animation-duration:15s;animation-delay:2s;">🌸</div>
   <div class="petal" style="left:38%;animation-duration:10s;animation-delay:4s;">🌸</div>
@@ -513,21 +215,19 @@
   <div class="petal" style="left:93%;animation-duration:16s;animation-delay:7s;">🌸</div>
   <div class="petal" style="left:3%;animation-duration:18s;animation-delay:8s;">🌸</div>
   <div class="petal" style="left:48%;animation-duration:9s;animation-delay:6s;font-size:10px;">🌸</div>
-  <div class="petal" style="left:75%;animation-duration:20s;animation-delay:2.5s;font-size:12px;">🌸</div>
-  <div class="petal" style="left:32%;animation-duration:17s;animation-delay:9s;font-size:10px;">🌸</div>
   <div class="petal" style="left:15%;animation-duration:11s;animation-delay:3.5s;font-size:20px;">🌸</div>
 
   <div class="container">
     <header>
-      <div class="badge"><span class="badge-dot"></span>🌸 OPS TOOL</div>
+      <div class="badge"><span class="badge-dot"></span>🌸 OPS TOOL · v2</div>
       <h1>LS Data<br/><span class="accent">Formatter</span></h1>
-      <p class="title-jp">君の膵臓をたべたい ・ data edition</p>
-      <p class="subtitle">Convert raw Zoom webinar exports into Exotel-ready format — like fleeting moments, processed in your browser before they slip away.</p>
+      <p class="title-jp">君の膵臓をたべたい ・ multi-file edition</p>
+      <p class="subtitle">Merge multiple Zoom exports, convert to Exotel-ready format, and auto-split into files of 20,000 rows — all in your browser.</p>
       <div class="mood-strip">
         <span class="mood-pill">🌸 Sakura Fast</span>
-        <span class="mood-pill">🌊 Sky Accurate</span>
-        <span class="mood-pill">🍃 Leaf Clean</span>
-        <span class="mood-pill">☀️ Amber Warm</span>
+        <span class="mood-pill">🌊 Multi-File</span>
+        <span class="mood-pill">🍃 Auto-Split</span>
+        <span class="mood-pill">☀️ Dupe Clean</span>
       </div>
       <div class="divider">
         <div class="divider-line"></div>
@@ -551,53 +251,80 @@
       <div class="auto-banner">
         <div class="icon">🌸</div>
         <div>
-          <strong>Everything else is auto-detected from your CSV</strong>
-          <p>Zoom Webinar ID &rarr; from <code>zoomads</code> column<br/>
-          Meeting ID &rarr; from <code>zoomid</code> column<br/>
-          Country Code &rarr; from <code>CountryCode</code> column (per row)</p>
+          <strong>Everything else is auto-detected from your CSVs</strong>
+          <p>Zoom Webinar ID → from <code>zoomads</code> column<br/>
+          Meeting ID → from <code>zoomid</code> column<br/>
+          Country Code → from <code>CountryCode</code> column (per row)<br/>
+          Output auto-splits at <strong>20,000 rows</strong> per file</p>
         </div>
       </div>
       <span class="help-toggle" onclick="toggleHelp()">🌸 How does this work?</span>
       <div class="help-box" id="helpBox">
         <strong style="color:var(--ink);font-family:'Noto Serif JP',serif;">Input columns used:</strong><br/>
-        &nbsp;&nbsp;<span style="color:var(--sakura-deep)">Phone</span> + <span style="color:var(--sakura-deep)">CountryCode</span> &rarr; <code>'+91-9876543210</code><br/>
-        &nbsp;&nbsp;<span style="color:var(--sakura-deep)">emailid</span> &rarr; passed through as-is<br/>
-        &nbsp;&nbsp;<span style="color:var(--sakura-deep)">zoomads</span> &rarr; base URL + suffix = full webinar link<br/>
-        &nbsp;&nbsp;<span style="color:var(--sakura-deep)">zoomid</span> &rarr; cleaned numeric meeting ID<br/><br/>
+        &nbsp;&nbsp;<span style="color:var(--sakura-deep)">Phone</span> + <span style="color:var(--sakura-deep)">CountryCode</span> → <code>'+91-9876543210</code><br/>
+        &nbsp;&nbsp;<span style="color:var(--sakura-deep)">emailid</span> → passed through as-is<br/>
+        &nbsp;&nbsp;<span style="color:var(--sakura-deep)">zoomads</span> → base URL + suffix = full webinar link<br/>
+        &nbsp;&nbsp;<span style="color:var(--sakura-deep)">zoomid</span> → cleaned numeric meeting ID<br/><br/>
+        <strong style="color:var(--ink);font-family:'Noto Serif JP',serif;">Multi-file merge:</strong><br/>
+        &nbsp;&nbsp;Upload multiple CSVs → all rows merged together<br/>
+        &nbsp;&nbsp;Duplicates removed by phone number<br/>
+        &nbsp;&nbsp;Output split into max 20,000 rows per file<br/><br/>
         <strong style="color:var(--ink);font-family:'Noto Serif JP',serif;">Output columns:</strong> Phone, emailid, zoomads, zoomid
       </div>
       <input type="hidden" id="zoomSuffix" value=""/>
       <input type="hidden" id="zoomMeetingId" value=""/>
     </div>
 
-    <!-- Card 2: Upload -->
+    <!-- Card 2: Upload (multi-file) -->
     <div class="card card-2">
       <div class="card-corner">🌊</div>
       <div class="card-header">
         <div class="card-icon">📂</div>
         <div>
-          <div class="card-title">Upload Source File</div>
-          <div class="card-subtitle">Your original Zoom export CSV</div>
+          <div class="card-title">Upload Source Files</div>
+          <div class="card-subtitle">Drop multiple Zoom export CSVs — merged automatically</div>
         </div>
       </div>
-      <input type="file" accept=".csv" id="csvFile" onchange="handleFile(event)" style="display:none;"/>
-      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('csvFile').click()">
+
+      <!-- Hidden input for "add more" button -->
+      <input type="file" accept=".csv" id="csvFileInputExtra" multiple style="display:none;" onchange="handleFileInputChange(event)"/>
+
+      <!-- Drop zone with its own file input -->
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" accept=".csv" id="csvFileDrop" multiple onchange="handleFileInputChange(event)"/>
         <span class="upload-emoji">🌸</span>
-        <h3>Drop your CSV here, or click to browse</h3>
-        <p>Required columns: Phone &middot; emailid &middot; zoomads &middot; zoomid &middot; CountryCode</p>
-        <div class="file-name" id="fileName" style="display:none;"></div>
+        <h3>Drop CSV files here, or click to browse</h3>
+        <p>Select multiple files at once &middot; Required: Phone &middot; emailid &middot; zoomads &middot; zoomid &middot; CountryCode</p>
       </div>
+
+      <!-- File list -->
+      <div class="file-list" id="fileList"></div>
+
+      <!-- Add more button -->
+      <div id="addMoreWrap" style="display:none; margin-top:4px;">
+        <button class="add-more-btn" onclick="document.getElementById('csvFileInputExtra').click()">
+          ＋ Add More Files
+        </button>
+      </div>
+
       <div id="uploadAlert"></div>
+
+      <!-- Merge summary panel -->
+      <div class="merge-summary" id="mergeSummary">
+        <div class="merge-summary-title">🍃 Merge Plan</div>
+        <div class="merge-chips" id="mergeChips"></div>
+        <div class="out-files" id="outFilesPreview"></div>
+      </div>
     </div>
 
-    <!-- Card 3: Preview (hidden) -->
+    <!-- Card 3: Preview -->
     <div class="card card-3" id="previewCard" style="display:none;">
       <div class="card-corner">🍃</div>
       <div class="card-header">
         <div class="card-icon">👀</div>
         <div>
           <div class="card-title">Output Preview</div>
-          <div class="card-subtitle">First 5 rows of converted data</div>
+          <div class="card-subtitle">First 5 rows of merged converted data</div>
         </div>
       </div>
       <div class="stats" id="statsBar"></div>
@@ -613,12 +340,12 @@
         <div class="card-icon">🚀</div>
         <div>
           <div class="card-title">Export</div>
-          <div class="card-subtitle">Download your Exotel-ready CSV</div>
+          <div class="card-subtitle">Download your Exotel-ready CSV(s)</div>
         </div>
       </div>
       <button class="btn" id="convertBtn" onclick="convertAndDownload()" disabled>
         <span class="btn-icon">🌸</span>
-        Export Converted CSV &nbsp; ↓
+        <span id="exportBtnLabel">Export Merged CSV(s) &nbsp;↓</span>
       </button>
       <div class="progress-wrap" id="progressWrap">
         <div class="progress-label" id="progressLabel">Processing...</div>
@@ -627,61 +354,74 @@
       <div id="convertAlert"></div>
     </div>
 
+    <div class="scene-divider">· · · · ·</div>
     <footer>
-      <div class="footer-petals">
-        <span>🌸</span><span>🌸</span><span>🌸</span><span>🌸</span><span>🌸</span>
-      </div><br/>
-      LS DATA FORMATTER &nbsp;&middot;&nbsp; EXOTEL READY &nbsp;&middot;&nbsp; OPS TOOL
+      <div class="footer-petals"><span>🌸</span><span>🌸</span><span>🌸</span><span>🌸</span><span>🌸</span></div><br/>
+      LS DATA FORMATTER &nbsp;·&nbsp; MULTI-FILE MERGE &nbsp;·&nbsp; EXOTEL READY &nbsp;·&nbsp; v2
     </footer>
   </div>
 
   <script>
-    let parsedRows = [], headers = [];
+    const MAX_ROWS = 20000;
+    let fileEntries = []; // { name, rows, headers }
 
     function toggleHelp() { document.getElementById("helpBox").classList.toggle("open"); }
 
+    // ── Drag & Drop ──
     const zone = document.getElementById("uploadZone");
     zone.addEventListener("dragover", e => { e.preventDefault(); zone.classList.add("drag-over"); });
     zone.addEventListener("dragleave", () => zone.classList.remove("drag-over"));
     zone.addEventListener("drop", e => {
       e.preventDefault(); zone.classList.remove("drag-over");
-      const f = e.dataTransfer.files[0]; if(f) processFile(f);
+      const files = Array.from(e.dataTransfer.files).filter(f => f.name.endsWith(".csv"));
+      if (files.length) queueFiles(files);
     });
 
-    function handleFile(e) { const f = e.target.files[0]; if(f) processFile(f); }
+    function handleFileInputChange(e) {
+      const files = Array.from(e.target.files);
+      if (files.length) queueFiles(files);
+      e.target.value = ""; // reset so same file can be re-added
+    }
 
-    function processFile(file) {
-      if (!file.name.endsWith(".csv")) { showAlert("uploadAlert","error","❌ Invalid file type. Please upload a .csv file."); return; }
-      const fn = document.getElementById("fileName");
-      fn.textContent = "🌸 " + file.name; fn.style.display = "inline-flex";
-      const r = new FileReader();
-      r.onload = e => parseCSV(e.target.result);
-      r.readAsText(file);
+    function queueFiles(files) {
+      files.forEach(file => {
+        if (!file.name.endsWith(".csv")) {
+          renderFileItem(file.name, null, "Not a CSV file", true);
+          return;
+        }
+        if (fileEntries.find(fe => fe.name === file.name)) {
+          showAlert("uploadAlert", "error", "⚠️ \"" + file.name + "\" is already in the list.");
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const result = parseCSV(ev.target.result);
+          if (result.error) {
+            renderFileItem(file.name, null, result.error, true);
+          } else {
+            fileEntries.push({ name: file.name, rows: result.rows, headers: result.headers });
+            renderFileItem(file.name, result.rows.length, null, false);
+            autoDetectConfig(result.rows, result.headers);
+            refreshUI();
+          }
+        };
+        reader.readAsText(file);
+      });
+      document.getElementById("addMoreWrap").style.display = "block";
     }
 
     function parseCSV(text) {
       const lines = text.split(/\r\n|\r|\n/).filter(l => l.trim());
-      if (lines.length < 2) { showAlert("uploadAlert","error","File appears empty or contains no data rows."); return; }
-      headers = parseCSVLine(lines[0]).map(h => h.trim());
-      parsedRows = lines.slice(1).map(l => {
+      if (lines.length < 2) return { error: "File is empty" };
+      const headers = parseCSVLine(lines[0]).map(h => h.trim());
+      const missing = ["Phone","emailid"].filter(c => !headers.includes(c));
+      if (missing.length) return { error: "Missing columns: " + missing.join(", ") };
+      const rows = lines.slice(1).map(l => {
         const vals = parseCSVLine(l), obj = {};
-        headers.forEach((h,i) => { obj[h] = (vals[i]||"").trim(); });
+        headers.forEach((h, i) => { obj[h] = (vals[i] || "").trim(); });
         return obj;
       }).filter(r => Object.values(r).some(v => v));
-      const missing = ["Phone","emailid"].filter(c => !headers.includes(c));
-      if (missing.length) { showAlert("uploadAlert","error","Missing required columns: "+missing.join(", ")); return; }
-      showAlert("uploadAlert","success","🌸 " + parsedRows.length.toLocaleString() + " records loaded successfully.");
-      showPreview();
-      document.getElementById("convertBtn").disabled = false;
-      if (headers.includes("zoomads")) {
-        const s = parsedRows[0]["zoomads"] || "";
-        if (s.startsWith("http")) { const p = s.split("/register/"); document.getElementById("zoomSuffix").value = p.length>1 ? p[1] : s; }
-        else if (s) document.getElementById("zoomSuffix").value = s;
-      }
-      if (headers.includes("zoomid")) {
-        const s = (parsedRows[0]["zoomid"] || "").replace(/\s+/g, "");
-        if (s) document.getElementById("zoomMeetingId").value = s;
-      }
+      return { headers, rows };
     }
 
     function parseCSVLine(line) {
@@ -689,12 +429,145 @@
       for (let i = 0; i < line.length; i++) {
         const c = line[i];
         if (c === '"') { inQ = !inQ; }
-        else if (c === "," && !inQ) { res.push(cur); cur = ""; }
+        else if (c === ',' && !inQ) { res.push(cur); cur = ""; }
         else { cur += c; }
       }
       res.push(cur); return res;
     }
 
+    function autoDetectConfig(rows, headers) {
+      if (headers.includes("zoomads") && !document.getElementById("zoomSuffix").value) {
+        const s = rows[0]["zoomads"] || "";
+        if (s.startsWith("http")) {
+          const p = s.split("/register/");
+          document.getElementById("zoomSuffix").value = p.length > 1 ? p[1] : s;
+        } else if (s) { document.getElementById("zoomSuffix").value = s; }
+      }
+      if (headers.includes("zoomid") && !document.getElementById("zoomMeetingId").value) {
+        const s = (rows[0]["zoomid"] || "").replace(/\s+/g, "");
+        if (s) document.getElementById("zoomMeetingId").value = s;
+      }
+    }
+
+    // ── File item rendering ──
+    function renderFileItem(name, rowCount, errorMsg, isError) {
+      const list = document.getElementById("fileList");
+      const itemId = "fi_" + name.replace(/[^a-z0-9]/gi, "_");
+      if (document.getElementById(itemId)) return; // already exists
+      const el = document.createElement("div");
+      el.className = "file-item " + (isError ? "err" : "ok");
+      el.id = itemId;
+      el.style.animationDelay = (fileEntries.length * 0.05) + "s";
+      const shortName = name.length > 42 ? name.slice(0,39) + "..." : name;
+      el.innerHTML =
+        '<span class="fi-icon">' + (isError ? "❌" : "✅") + '</span>' +
+        '<div class="fi-info">' +
+          '<span class="fi-name" title="' + name + '">🌸 ' + shortName + '</span>' +
+          (rowCount !== null ? '<span class="fi-meta">' + rowCount.toLocaleString() + ' rows loaded</span>' : '') +
+          (errorMsg ? '<span class="fi-meta err-meta">' + errorMsg + '</span>' : '') +
+        '</div>' +
+        (!isError ? '<button class="fi-remove" onclick="removeFile(\'' + CSS.escape(name) + '\', \'' + itemId + '\')">✕ Remove</button>' : '');
+      list.appendChild(el);
+    }
+
+    function removeFile(name, itemId) {
+      fileEntries = fileEntries.filter(fe => fe.name !== name);
+      const el = document.getElementById(itemId);
+      if (el) el.remove();
+      refreshUI();
+      if (fileEntries.length === 0) {
+        document.getElementById("addMoreWrap").style.display = "none";
+        document.getElementById("mergeSummary").classList.remove("show");
+        document.getElementById("previewCard").style.display = "none";
+        document.getElementById("convertBtn").disabled = true;
+        document.getElementById("exportBtnLabel").textContent = "Export Merged CSV(s) \u00a0\u2193";
+        document.getElementById("uploadAlert").innerHTML = "";
+      }
+    }
+
+    // ── Merge logic ──
+    function getMergedRows() {
+      const seen = new Set(), out = [];
+      fileEntries.forEach(fe => {
+        fe.rows.forEach(row => {
+          const key = (row["Phone"] || "").replace(/[^0-9]/g, "");
+          if (!key || seen.has(key)) return;
+          seen.add(key);
+          out.push(row);
+        });
+      });
+      return out;
+    }
+
+    function planSplits(total) {
+      const files = [];
+      const n = Math.ceil(total / MAX_ROWS) || 1;
+      for (let i = 0; i < n; i++) {
+        const start = i * MAX_ROWS;
+        const end = Math.min(start + MAX_ROWS, total);
+        files.push({ index: i + 1, start, end, count: end - start });
+      }
+      return files;
+    }
+
+    // ── Refresh all UI after file list changes ──
+    function refreshUI() {
+      if (fileEntries.length === 0) return;
+      const merged = getMergedRows();
+      const totalIn = fileEntries.reduce((s, fe) => s + fe.rows.length, 0);
+      const dupes = totalIn - merged.length;
+      const splits = planSplits(merged.length);
+      const today = new Date().toISOString().slice(0, 10);
+
+      // Merge summary chips
+      document.getElementById("mergeSummary").classList.add("show");
+      document.getElementById("mergeChips").innerHTML =
+        '<span class="mchip mchip-files">📂 ' + fileEntries.length + ' file' + (fileEntries.length !== 1 ? 's' : '') + '</span>' +
+        '<span class="mchip mchip-rows">📊 ' + merged.length.toLocaleString() + ' unique rows</span>' +
+        (dupes > 0 ? '<span class="mchip mchip-dupe">🔁 ' + dupes.toLocaleString() + ' dupes removed</span>' : '') +
+        '<span class="mchip mchip-split">📦 ' + splits.length + ' output file' + (splits.length !== 1 ? 's' : '') + '</span>';
+
+      document.getElementById("outFilesPreview").innerHTML = splits.map(f =>
+        '<div class="out-file-row">' +
+          '<span class="out-badge">FILE ' + f.index + '</span>' +
+          '<span class="out-name">ls_data_' + today + (splits.length > 1 ? '_part' + f.index : '') + '.csv</span>' +
+          '<span class="out-rows-count">' + f.count.toLocaleString() + ' rows</span>' +
+        '</div>'
+      ).join('');
+
+      // Preview card
+      const pc = document.getElementById("previewCard");
+      pc.style.display = "block";
+      pc.style.animation = "none"; void pc.offsetWidth;
+      pc.style.animation = "cardSlide 0.7s cubic-bezier(0.16,1,0.3,1) both";
+
+      document.getElementById("statsBar").innerHTML =
+        '<div class="stat"><strong>' + merged.length.toLocaleString() + '</strong><span>Unique Rows</span></div>' +
+        '<div class="stat"><strong>' + fileEntries.length + '</strong><span>Input Files</span></div>' +
+        '<div class="stat"><strong>4</strong><span>Output Cols</span></div>' +
+        '<div class="stat"><strong>' + splits.length + '</strong><span>Output Files</span></div>';
+
+      const cols = ["Phone","emailid","zoomads","zoomid"];
+      const preview = merged.slice(0, 5).map(convertRow);
+      let html = '<thead><tr>' + cols.map(c => '<th>' + c + '</th>').join('') + '</tr></thead><tbody>';
+      preview.forEach(row => { html += '<tr>' + cols.map(c => '<td title="' + (row[c]||'') + '">' + (row[c]||'') + '</td>').join('') + '</tr>'; });
+      document.getElementById("previewTable").innerHTML = html + '</tbody>';
+
+      // Export button
+      const btn = document.getElementById("convertBtn");
+      btn.disabled = merged.length === 0;
+      document.getElementById("exportBtnLabel").textContent =
+        splits.length > 1
+          ? 'Export ' + splits.length + ' Files (Merged) \u00a0\u2193'
+          : 'Export Merged CSV \u00a0\u2193';
+
+      showAlert("uploadAlert", "success",
+        "🌸 " + fileEntries.length + " file(s) ready · " +
+        merged.length.toLocaleString() + " unique records · " +
+        splits.length + " output file(s) will be generated");
+    }
+
+    // ── Row conversion ──
     function formatPhone(phone, cc) {
       let d = phone.replace(/[^0-9]/g, "");
       const c = (cc || "91").replace(/[^0-9]/g, "");
@@ -712,97 +585,97 @@
       const phone = formatPhone(row["Phone"] || "", cc);
       const email = row["emailid"] || "";
       let suffix = sfx || (row["zoomads"] || "");
-      if (suffix.startsWith("http")) { const p = suffix.split("/register/"); suffix = p.length>1 ? p[1] : suffix; }
+      if (suffix.startsWith("http")) { const p = suffix.split("/register/"); suffix = p.length > 1 ? p[1] : suffix; }
       const zoomads = base + suffix;
       const zoomid = (mid || (row["zoomid"] || "")).replace(/\s+/g, "");
       return { Phone: phone, emailid: email, zoomads: zoomads, zoomid: zoomid };
     }
 
-    function showPreview() {
-      const pc = document.getElementById("previewCard");
-      pc.style.display = "block";
-      pc.style.animation = "none";
-      void pc.offsetWidth;
-      pc.style.animation = "cardSlide 0.7s cubic-bezier(0.16,1,0.3,1) both";
+    // ── Export ──
+    async function convertAndDownload() {
+      if (!fileEntries.length) return;
+      const merged = getMergedRows();
+      if (!merged.length) return;
 
-      document.getElementById("statsBar").innerHTML =
-        '<div class="stat"><strong>' + parsedRows.length.toLocaleString() + '</strong><span>Total Rows</span></div>' +
-        '<div class="stat"><strong>' + headers.length + '</strong><span>Input Cols</span></div>' +
-        '<div class="stat"><strong>4</strong><span>Output Cols</span></div>';
-      const cols = ["Phone","emailid","zoomads","zoomid"];
-      const preview = parsedRows.slice(0,5).map(convertRow);
-      let html = '<thead><tr>' + cols.map(c => '<th>'+c+'</th>').join('') + '</tr></thead><tbody>';
-      preview.forEach(row => { html += '<tr>' + cols.map(c => '<td title="'+row[c]+'">'+row[c]+'</td>').join('') + '</tr>'; });
-      document.getElementById("previewTable").innerHTML = html + '</tbody>';
-    }
-
-    function convertAndDownload() {
-      if (!parsedRows.length) return;
       const wrap = document.getElementById("progressWrap");
       const fill = document.getElementById("progressFill");
       const lbl = document.getElementById("progressLabel");
       const btn = document.getElementById("convertBtn");
       btn.disabled = true;
       wrap.classList.add("show");
-      const cols = ["Phone","emailid","zoomads","zoomid"], total = parsedRows.length;
-      let csv = cols.join(",") + "\n", i = 0;
-      function chunk() {
-        const end = Math.min(i + 500, total);
-        for (; i < end; i++) {
-          const row = convertRow(parsedRows[i]);
-          csv += cols.map(c => '"' + (row[c]||"").replace(/"/g, '""') + '"').join(",") + "\n";
+
+      const cols = ["Phone","emailid","zoomads","zoomid"];
+      const total = merged.length;
+      const splits = planSplits(total);
+      const today = new Date().toISOString().slice(0, 10);
+
+      // Convert all rows in chunks with progress
+      const converted = [];
+      let i = 0;
+      await new Promise(resolve => {
+        function chunk() {
+          const end = Math.min(i + 600, total);
+          for (; i < end; i++) converted.push(convertRow(merged[i]));
+          const pct = Math.round(i / total * 100);
+          fill.style.width = pct + "%";
+          lbl.textContent = "🌸 Converting... " + pct + "% (" + i.toLocaleString() + " / " + total.toLocaleString() + " rows)";
+          i < total ? requestAnimationFrame(chunk) : resolve();
         }
-        const pct = Math.round(i / total * 100);
-        fill.style.width = pct + "%";
-        lbl.textContent = "🌸 Processing... " + pct + "%";
-        if (i < total) { requestAnimationFrame(chunk); }
-        else {
-          const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-          const url = URL.createObjectURL(blob), a = document.createElement("a");
-          a.href = url; a.download = "ls_data_" + new Date().toISOString().slice(0,10) + ".csv";
-          a.click(); URL.revokeObjectURL(url);
-          showAlert("convertAlert","success","🌸 " + total.toLocaleString() + " records exported — like petals in the wind.");
-          lbl.textContent = "🌸 Done!"; launchSakuraBurst();
-          setTimeout(() => { fill.style.width = "0%"; wrap.classList.remove("show"); btn.disabled = false; }, 2200);
-        }
+        requestAnimationFrame(chunk);
+      });
+
+      // Download each split file
+      for (let fi = 0; fi < splits.length; fi++) {
+        const sp = splits[fi];
+        let csv = cols.join(",") + "\n";
+        converted.slice(sp.start, sp.end).forEach(row => {
+          csv += cols.map(c => '"' + (row[c]||"").replace(/"/g,'""') + '"').join(",") + "\n";
+        });
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "ls_data_" + today + (splits.length > 1 ? "_part" + sp.index : "") + ".csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        lbl.textContent = "🌸 Downloaded file " + sp.index + " of " + splits.length + " (" + sp.count.toLocaleString() + " rows)";
+        if (fi < splits.length - 1) await new Promise(r => setTimeout(r, 700));
       }
-      chunk();
+
+      fill.style.width = "100%";
+      const msg = splits.length > 1
+        ? "🌸 " + total.toLocaleString() + " records exported across " + splits.length + " files — like petals carried by the wind."
+        : "🌸 " + total.toLocaleString() + " records exported — like petals in the wind.";
+      showAlert("convertAlert", "success", msg);
+      lbl.textContent = "🌸 Complete! " + splits.length + " file(s) downloaded.";
+      launchSakuraBurst();
+      setTimeout(() => { fill.style.width = "0%"; wrap.classList.remove("show"); btn.disabled = false; }, 2500);
     }
 
     function launchSakuraBurst() {
-      const symbols = ["🌸","🌸","🌸","🌸","🌸","✿","❀","🌺","🍃","☁️"];
+      const symbols = ["🌸","🌸","🌸","✿","❀","🌺","🍃"];
       const colors = ["#f4a7b9","#e05a7a","#f9c4d1","#b8d4f0","#c8e6c7","#fdecd8","#f2869e","#7db87a"];
       for (let i = 0; i < 60; i++) {
         const el = document.createElement("div");
         el.className = "confetti-piece";
-        const isSym = Math.random() > 0.45;
-        if (isSym) {
-          el.style.fontSize = (Math.random() * 14 + 12) + "px";
-          el.style.background = "none";
-          el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
-        } else {
-          const size = Math.random() * 10 + 5;
-          el.style.width = size + "px"; el.style.height = size + "px";
-          el.style.borderRadius = Math.random() > 0.5 ? "50%" : "40% 60% 60% 40% / 40% 40% 60% 60%";
-          el.style.background = colors[Math.floor(Math.random()*colors.length)];
-        }
-        el.style.left = (Math.random()*100) + "vw";
-        el.style.top = (Math.random()*25 + 5) + "vh";
-        el.style.position = "fixed";
-        el.style.animationDelay = (Math.random()*0.8) + "s";
-        el.style.animationDuration = (Math.random()*0.8 + 1.2) + "s";
+        if (Math.random() > 0.45) { el.style.fontSize = (Math.random()*14+12)+"px"; el.style.background="none"; el.textContent=symbols[Math.floor(Math.random()*symbols.length)]; }
+        else { const s=Math.random()*10+5; el.style.width=s+"px"; el.style.height=s+"px"; el.style.borderRadius=Math.random()>0.5?"50%":"40% 60% 60% 40% / 40% 40% 60% 60%"; el.style.background=colors[Math.floor(Math.random()*colors.length)]; }
+        el.style.left=(Math.random()*100)+"vw"; el.style.top=(Math.random()*25+5)+"vh"; el.style.position="fixed";
+        el.style.animationDelay=(Math.random()*0.8)+"s"; el.style.animationDuration=(Math.random()*0.8+1.2)+"s";
         document.body.appendChild(el);
-        setTimeout(() => el.remove(), 2600);
+        setTimeout(()=>el.remove(), 2600);
       }
     }
 
     function showAlert(id, type, msg) {
-      const wrapper = document.getElementById(id);
-      const div = document.createElement("div");
-      div.className = "alert " + type;
-      div.textContent = msg;
-      wrapper.innerHTML = "";
-      wrapper.appendChild(div);
+      const w = document.getElementById(id);
+      const d = document.createElement("div");
+      d.className = "alert " + type;
+      d.textContent = msg;
+      w.innerHTML = "";
+      w.appendChild(d);
     }
   </script>
 </body>
