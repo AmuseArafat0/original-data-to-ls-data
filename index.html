@@ -584,10 +584,10 @@
       const mid = document.getElementById("zoomMeetingId").value.trim();
       const phone = formatPhone(row["Phone"] || "", cc);
       const email = row["emailid"] || "";
-      let suffix = sfx || (row["zoomads"] || "");
+      let suffix = (row["zoomads"] || "") || sfx;
       if (suffix.startsWith("http")) { const p = suffix.split("/register/"); suffix = p.length > 1 ? p[1] : suffix; }
       const zoomads = base + suffix;
-      const zoomid = (mid || (row["zoomid"] || "")).replace(/\s+/g, "");
+      const zoomid = ((row["zoomid"] || "") || mid).replace(/\s+/g, "");
       return { Phone: phone, emailid: email, zoomads: zoomads, zoomid: zoomid };
     }
 
