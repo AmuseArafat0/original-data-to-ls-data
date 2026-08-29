@@ -239,7 +239,7 @@
       <div class="badge"><span class="badge-dot"></span>🌸 OPS TOOL · v2</div>
       <h1>LS Data<br/><span class="accent">Formatter</span></h1>
       <p class="title-jp">君の膵臓をたべたい ・ multi-file edition</p>
-      <p class="subtitle">Merge multiple Zoom exports, convert to Exotel-ready format, and auto-split into files of 20,000 rows — all in your browser.</p>
+      <p class="subtitle">Merge multiple Zoom exports, convert to Exotel-ready format, and auto-split into files of 25,000 rows — all in your browser.</p>
       <div class="mood-strip">
         <span class="mood-pill">🌸 Sakura Fast</span>
         <span class="mood-pill">🌊 Multi-File</span>
@@ -272,7 +272,7 @@
           <p>Zoom Webinar ID → from <code>zoomads</code> column<br/>
           Meeting ID → from <code>zoomid</code> column<br/>
           Country Code → from <code>CountryCode</code> column (per row)<br/>
-          Output auto-splits at <strong>20,000 rows</strong> per file</p>
+          Output auto-splits at <strong>25,000 rows</strong> per file</p>
         </div>
       </div>
       <span class="help-toggle" onclick="toggleHelp()">🌸 How does this work?</span>
@@ -285,7 +285,7 @@
         <strong style="color:var(--ink);font-family:'Noto Serif JP',serif;">Multi-file merge:</strong><br/>
         &nbsp;&nbsp;Upload multiple CSVs → all rows merged together<br/>
         &nbsp;&nbsp;Duplicates removed by phone number<br/>
-        &nbsp;&nbsp;Output split into max 20,000 rows per file<br/><br/>
+        &nbsp;&nbsp;Output split into max 25,000 rows per file<br/><br/>
         <strong style="color:var(--ink);font-family:'Noto Serif JP',serif;">Output columns:</strong> Phone, emailid, zoomads, zoomid
       </div>
       <input type="hidden" id="zoomSuffix" value=""/>
@@ -389,7 +389,7 @@
     document.addEventListener("visibilitychange", applyVisibilityState);
     applyVisibilityState();
 
-    const MAX_ROWS = 20000;
+    const MAX_ROWS = 25000;
     let fileEntries = []; // { name, rows, headers }
 
     function toggleHelp() { document.getElementById("helpBox").classList.toggle("open"); }
